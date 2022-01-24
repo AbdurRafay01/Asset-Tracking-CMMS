@@ -1,0 +1,11 @@
+#before starting server make sure to run the following command to install all the required packages
+pip install -r requirements.txt
+
+#To install package 
+python -m pip install -U <package name>
+
+#To check the version of package
+python -c 'import <package name>; print(<package name>.__version__)'
+
+#After installing make sure to add to requirements.txt
+
