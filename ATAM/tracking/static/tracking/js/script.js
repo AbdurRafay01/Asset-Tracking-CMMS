@@ -50,4 +50,4 @@ setInterval(function() {
   // change the marker position
   marker.setPosition(latlngvalues);
   infowindow.setContent("<p>Asset 1 Location:" + marker.getPosition() + "</p>");
-}, 30000); }  
+}, 10000); }  
