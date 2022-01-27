@@ -1,0 +1,3 @@
+install redis 
+then run the server 
+will now work on more than 1 tab 
