@@ -11,6 +11,5 @@ class Tracker(models.Model):
     pass #
 class Location(models.Model):
     #track_id = ye forign key hogi tracker class ki ki
-    point_id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     lat = models.DecimalField(max_digits=8,decimal_places=4)
     lng = models.DecimalField(max_digits=8,decimal_places=4)
