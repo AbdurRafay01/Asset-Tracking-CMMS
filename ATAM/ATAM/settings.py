@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from email.policy import default
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -93,6 +94,15 @@ DATABASES = {
         'HOST': '35.200.156.14',
         'PORT': '5432', #at the moment of this writing google cloud postgresql is using the default postgresql port 5432
         
+    }
+}
+
+CHANNEL_LAYERS = {
+    'default' : {
+        'BACKEND' : 'channels_redis.core.RedisChannelLayer',
+        'CONFIG'  : {
+            'hosts':[('127.0.0.1',6379)]
+        }
     }
 }
 
