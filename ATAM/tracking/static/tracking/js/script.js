@@ -115,10 +115,9 @@ var map = undefined;
 var marker = undefined;
 var position = [24.9180, 67.0971];
 var latlngvalues=null;
-var oldlatlngvalues=null;
+var oldlatlngvalues=null
 
 function initialize() {
-
     var latlng = new google.maps.LatLng(position[0], position[1]);
     var myOptions = {
         zoom: 10,
@@ -168,6 +167,7 @@ function moveMarker(){
   var socket = new WebSocket('ws://localhost:8000/ws/some_url/');
   socket.onmessage = function(event){ 
     var data = JSON.parse(event.data);
+    console.log(data);
     latlngvalues = data;
     
     if (latlngvalues!==oldlatlngvalues && oldlatlngvalues !== null){
