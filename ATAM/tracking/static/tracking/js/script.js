@@ -1,3 +1,5 @@
+
+
 // let map;
 // function initMap() {
 //   const mapOptions = {
@@ -108,76 +110,83 @@
 //     })(i)
 //   }
 // //}
+let icon = {
+  url: "https://cdn-icons-png.flaticon.com/512/6395/6395539.png ",
+  scaledSize: { width: 55, height: 55 }
+}
 
-
-
-var map = undefined;
-var marker = undefined;
+var marker=[];
 var position = [24.9180, 67.0971];
-var latlngvalues=null;
-var oldlatlngvalues=null
-
-function initialize() {
-    var latlng = new google.maps.LatLng(position[0], position[1]);
-    var myOptions = {
-        zoom: 10,
-        center: latlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    map = new google.maps.Map(document.getElementById("map"), myOptions);
-
-    marker = new google.maps.Marker({
-        position: latlng,
-        map: map,
-        //icon:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYS3q7nqwCWYPmtib883U0z2zm-FhUFXqZIg&usqp=CAU',
-        title: "Your current location!",
-    });
-
-    // google.maps.event.addListener(map, 'click', function(me) {
-    //     var result = [me.latLng.lat(), me.latLng.lng()];
-    //     console.log(result);
-    //     transition(result);
-    // });
-}
-
-var numDeltas = 100;
-var delay = 10; //milliseconds
-var i = 0;
-var deltaLat;
-var deltaLng;
-function transition(result){
-    i = 0;
-    deltaLat = (result.lat - position[0])/numDeltas;
-    deltaLng = (result.lng - position[1])/numDeltas;
-    moveMarker();
-}
-
-function moveMarker(){
-    position[0] += deltaLat;
-    position[1] += deltaLng;
-    var latlng = new google.maps.LatLng(position[0], position[1]);
-    map.setCenter(latlng);
-    marker.setPosition(latlng);
-    if(i!=numDeltas){
-        i++;
-        setTimeout(moveMarker, delay);
-    }
-}
-
-  var socket = new WebSocket('ws://localhost:8000/ws/some_url/');
-  socket.onmessage = function(event){ 
+var marker_no=0;
+var counter= 1;  
+var socket = new WebSocket('ws://localhost:8000/ws/some_url/'); 
+  socket.onmessage = function(event){
     var data = JSON.parse(event.data);
-    console.log(data);
-    latlngvalues = data;
+    if (counter ==1){
+    for (i=1;i<=Object.keys(data).length;i++){
+       marker[i]= new google.maps.Marker({
+        position :new google.maps.LatLng(data[i][i-i], data[i][1]),
+        title :"Asset current location",
+        map : map,
+        icon :icon,
+        optimized: false,
+      }); //marker initial postion set
+       
+       };
+       counter ++ ;
+      }
+      else{
     
-    if (latlngvalues!==oldlatlngvalues && oldlatlngvalues !== null){
+      marker_no=Object.keys(data);
       
-      console.log("if chl gya h");
+      marker_no = marker_no[0];
+      console.log(marker_no);
+      latlngvalues ={'lat':data[marker_no]['lat'],'lng':data[marker_no]['lng']};
+      console.log(marker_no,latlngvalues);
       transition(latlngvalues);
-};
-  console.log(oldlatlngvalues,"check kar rha");
-  oldlatlngvalues=latlngvalues;
-
     };
-  
-
+  };
+    var latlngvalues=null;
+    var oldlatlngvalues=null;
+    
+    function initialize() {
+       
+        var latlng = new google.maps.LatLng(position[0], position[1]);
+        var myOptions = {
+            zoom: 8,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map"), myOptions);
+    };
+    
+    var numDeltas = 100;
+    var delay = 10; //milliseconds
+    var i = 0;
+    var deltaLat;
+    var deltaLng;
+    function transition(result){
+        //console.log(position); 
+        //console.log(marker);
+        i = 0;
+        deltaLat = (result['lat'] - position[0])/numDeltas;
+        deltaLng = (result['lng'] - position[1])/numDeltas;
+        console.log(deltaLat,deltaLng);
+        moveMarker();
+    };
+    
+    function moveMarker(){
+        position[0] += deltaLat;
+        position[1] += deltaLng;
+        //console.log(position[0], position[1]);
+        var latlng = new google.maps.LatLng(position[0], position[1]);
+        //console.log(marker_no);
+        //console.log(marker[marker_no])  ;
+        
+        marker[marker_no].setPosition(latlng);
+        if(i!=numDeltas){
+            i++;
+            setTimeout(moveMarker, delay);
+        }
+     };
+    

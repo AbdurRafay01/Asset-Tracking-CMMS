@@ -1,39 +1,61 @@
 
-import imp
-from traceback import print_tb
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from random import randint , uniform
 from asyncio import sleep
-from .models import Location
+from .models import Location,Tracker
 from channels.db import database_sync_to_async
 class WSConsumer(AsyncWebsocketConsumer):
-    
+    no_of_tracker = 0;
+    counter = 0
+    data = {}
     async def connect(self):
-        await self.accept()
         
+        await self.accept()
         while self.connect :
-            obj = await self.Data()
-            lat = float(obj['lat'])
-            lng = float(obj['lng'])
-            await self.send(json.dumps({'lat':lat,'lng':lng}))
-            await sleep(30)
-            obj2 = await self.Data()
-            lat2 = float(obj2['lat'])
-            lng2= float(obj2['lng'])
-            if (lat + lng) == (lat2+lng2):
-                print("same value agai")
-            else :
-                await self.send(json.dumps({'lat':lat2,'lng':lng2}))
-                print("alag value ayi")
-                obj =obj2
-
-            
+             obj = await self.Data()
+             print(obj)
+             print(self.counter)
+             if  self.counter == 0:
+                print("counter zero ")
+                for i in range(self.no_of_tracker):
+                    i+=1
+                    tracker1 = float(obj[i]['lat']),float(obj[i]['lng'])
+                    print(tracker1)  
+                    self.data[i]=tracker1
+                await self.send(json.dumps(self.data,indent=4))
+                await sleep(30)
+             else:
+                 print("counter >1")
+                 for i in range(self.no_of_tracker):
+                    i+=1
+                    print(self.data[i])
+                    tracker1 = float(obj[i]['lat']),float(obj[i]['lng'])
+                    if (self.data[i]) == (tracker1):
+                        print("value same not sending......")
+        
+                    else:
+                        print("value is not same sending.....")   
+                        self.data[i]=tracker1
+                        await self.send(json.dumps({i:{'lat':self.data[i][0],'lng':self.data[i][1]}},indent=4))
+                 await sleep(30)             
+             print("incrementing counter")
+             self.counter+=1
+             print(self.counter)            
         self.close
     @database_sync_to_async
     def Data(self):
-        obj=(Location.objects.values('lat','lng').order_by('-id')[0])
-        return obj
+        tracker_dict = {}
+        tracker = len(Tracker.objects.all())
+        self.no_of_tracker = tracker
+        for i in range(tracker):
+            i+=1
+            #print(i)
+            obj=(Location.objects.filter(tracker=i).values('lat','lng').order_by('-id')[0])
+            tracker_dict[i]=obj
+        #print(tracker_dict)
+        return tracker_dict
+        
     #  for i in range(1000):
     #          await self.send(json.dumps({'lat':round(uniform(24.9180,25.1123),4),'lng':round(uniform(67.0971,67.3211),4)}))
     #          await sleep(3)
