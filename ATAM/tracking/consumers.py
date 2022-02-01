@@ -6,7 +6,7 @@ from asyncio import sleep
 from .models import Location,Tracker
 from channels.db import database_sync_to_async
 class WSConsumer(AsyncWebsocketConsumer):
-    no_of_tracker = 0;
+    no_of_tracker = 0
     counter = 0
     data = {}
     async def connect(self):
