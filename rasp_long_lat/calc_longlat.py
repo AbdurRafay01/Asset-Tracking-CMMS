@@ -5,7 +5,7 @@ import pynmea2
 import psycopg2
 from psycopg2 import Error
 
-print("Program running\n")
+print("Program running tracker 2\n")
 
 try:
     connection = psycopg2.connect(
@@ -19,7 +19,7 @@ try:
 
     i = 0
     while True:    
-        port="/dev/ttyAMA0"
+        port="/dev/ttyS0"
         ser=serial.Serial(port, baudrate=9600, timeout=0.5)
         dataout = pynmea2.NMEAStreamReader()
         newdata=ser.readline()
@@ -42,9 +42,9 @@ try:
                 '''query = f"UPDATE tracking_location\
                         SET lat={lat}, lng={lng}\
                         WHERE id={i};"'''
-                query = f"INSERT INTO tracking_location(lat, lng, tracker_id) VALUES ({lat}, {lng}, 1);"
-                cursor.execute(query)
-                connection.commit()
+                #query = f"INSERT INTO tracking_location(lat, lng, tracker_id) VALUES ({lat}, {lng}, 2);"
+                #cursor.execute(query)
+                #connection.commit()
 
                 print("Location Sent", i)
                 if i == 10:
