@@ -61,4 +61,8 @@ finally:
         print("PostgreSQL connection is closed")
 
 
+<<<<<<< HEAD
 # for git testing
+=======
+# for git push testing
+>>>>>>> c4cfebf0835ffd7bff47ef38759d205b437ac4f7
