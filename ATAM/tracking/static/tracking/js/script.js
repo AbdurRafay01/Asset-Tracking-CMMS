@@ -119,15 +119,15 @@ var marker=[];
 var position = [0, 0];
 var marker_no=0;
 var counter= 1;  
-var socket = new WebSocket('ws://localhost:8000/ws/some_url/'); 
-  socket.onmessage = function(event){
+const socket = new WebSocket('ws://127.0.0.1:8000/ws/tracking/'); 
+  socket.onmessage =  function(event){
     var data = JSON.parse(event.data);
     console.log(data);
     if (counter ==1){
     for (i=1;i<=Object.keys(data).length;i++){
        marker[i]= new google.maps.Marker({
         position :new google.maps.LatLng(data[i][i-i], data[i][1]),
-        title :"Asset current location",
+        title :""+new google.maps.LatLng(data[i][i-i], data[i][1]),
         map : map,
         icon :icon,
         optimized: false,
@@ -140,7 +140,7 @@ var socket = new WebSocket('ws://localhost:8000/ws/some_url/');
     
       marker_no=Object.keys(data);
       marker_no = marker_no[0];
-      //console.log(marker_no);
+      console.log(data[marker_no]);
       //console.log(data,{'lat':data[marker_no]['lat']});
       latlngvalues ={'lat':data[marker_no]['lat'],'lng':data[marker_no]['lng']};
       console.log("new value ",latlngvalues);
@@ -160,7 +160,7 @@ var socket = new WebSocket('ws://localhost:8000/ws/some_url/');
         map = new google.maps.Map(document.getElementById("map"), myOptions);
     };
     
-    var numDeltas = 100;
+    var numDeltas = 1;
     var delay = 10; //milliseconds
     var i = 0;
     var deltaLat;
@@ -169,30 +169,33 @@ var socket = new WebSocket('ws://localhost:8000/ws/some_url/');
     function transition(result,marker_no){
         //console.log(position); 
         console.log("............",);
-        i = 0;
+        i=0;
         
-        deltaLat = (result['lat'] - marker[marker_no].getPosition().lat())/numDeltas;
-        deltaLng = (result['lng'] - marker[marker_no].getPosition().lng())/numDeltas;
+        deltaLat = +(((result['lat'] - marker[marker_no].getPosition().lat())/numDeltas).toFixed(4));
+        
+        deltaLng = +(((result['lng'] - marker[marker_no].getPosition().lng())/numDeltas).toFixed(4));
         console.log(deltaLat,deltaLng);
         moveMarker(marker_no);
     };
     
     function moveMarker(marker_no){
-      lat= deltaLat+marker[marker_no].getPosition().lat() ;
-      lng=deltaLng+marker[marker_no].getPosition().lng();
-        //console.log(position[0], position[1]);
+      lat= +((deltaLat+marker[marker_no].getPosition().lat()).toFixed(4)) ;
+      lng=+((deltaLng+marker[marker_no].getPosition().lng()).toFixed(4));
+      console.log(lat,lng);
         var latlng = new google.maps.LatLng(lat, lng);
         //console.log(latlng);
         //console.log(marker_no);
         //console.log(marker[marker_no])  ;
         
         marker[marker_no].setPosition(latlng);
-
-        if(i!=numDeltas){
-            i++;
-            console.log(i);
-            setTimeout(moveMarker,10,marker_no);
-        };
+        marker[marker_no].setTitle("Location"+latlng)
+        // if(i!=numDeltas){
+        //     i++;
+        //     console.log(i);
+        //     setTimeout(moveMarker,5,marker_no);
+        // };
+      
+        
         //console.log(marker[marker_no].getPosition().lat(),marker[marker_no].getPosition().lng());
     };
     

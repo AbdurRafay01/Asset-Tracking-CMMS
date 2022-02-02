@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from email.policy import default
 from pathlib import Path
 
+from celery import Celery
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -74,6 +76,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ATAM.wsgi.application'
 ASGI_APPLICATION = 'ATAM.asgi.application'
 
+CELERY_BROKER_URL = 'redis://localhost:6379'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
