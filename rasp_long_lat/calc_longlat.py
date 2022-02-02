@@ -34,17 +34,23 @@ try:
                 lng=newmsg.longitude
                 gps = "Latitude=" + str(lat) + "and Longitude=" + str(lng)
                 print(gps)
-
-                query = f"UPDATE tracking_location\
+                if (lat + lng) == 0:
+                    continue
+                lat = round(lat, 2)
+                lng = round(lng, 2)
+                print("lat lng", lat, lng)
+                '''query = f"UPDATE tracking_location\
                         SET lat={lat}, lng={lng}\
-                        WHERE id={i};"
+                        WHERE id={i};"'''
+                query = f"INSERT INTO tracking_location(lat, lng, tracker_id) VALUES ({lat}, {lng}, 1);"
                 cursor.execute(query)
-                connection.commit()  
+                connection.commit()
+
                 print("Location Sent", i)
                 if i == 10:
                     i = 0
                 i += 1
-                time.sleep(5)
+                time.sleep(30)
 
 except(Exception, Error) as error:
     print("Error while connectiong to PostgreSQL", error)
