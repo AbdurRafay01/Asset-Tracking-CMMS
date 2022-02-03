@@ -87,7 +87,7 @@ ASGI_APPLICATION = 'ATAM.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'AssetTracking',
+        'NAME': 'test',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         # https://console.cloud.google.com/sql/instances

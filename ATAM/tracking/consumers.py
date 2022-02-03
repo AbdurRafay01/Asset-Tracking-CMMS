@@ -50,9 +50,11 @@ class WSConsumer(AsyncWebsocketConsumer):
         self.no_of_tracker = tracker
         for i in range(tracker):
             i+=1
-            #print(i)
-            obj=(Location.objects.filter(tracker=i).values('lat','lng').order_by('-id')[0])
-            tracker_dict[i]=obj
+            try:
+                obj=(Location.objects.filter(tracker=(i+3)).values('lat','lng').order_by('-id')[0])
+                tracker_dict[i]=obj
+            except:
+                print("databases empty")
         #print(tracker_dict)
         return tracker_dict
         

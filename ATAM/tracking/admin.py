@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(User)
 admin.site.register(Tracker)
 admin.site.register(Location)
+admin.site.register(Asset)
