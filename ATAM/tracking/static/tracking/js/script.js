@@ -118,8 +118,17 @@ let icon = {
 var marker=[];
 var position = [0, 0];
 var marker_no=0;
-var counter= 1;  
-const socket = new WebSocket('ws://127.0.0.1:8000/ws/tracking/'); 
+var counter= 1; 
+console.log(window.location); 
+console.log(window.location)
+    var loc = window.location
+    var wsStart = 'ws://'
+    if (loc.protocol == 'https:'){
+        wsStart = 'wss://'
+    }
+    var endpoint = wsStart + loc.host + loc.pathname
+    console.log(endpoint);
+const socket = new WebSocket('ws://localhost:8000/ws/tracking/'); 
   socket.onmessage =  function(event){
     var data = JSON.parse(event.data);
     console.log(data);

@@ -26,15 +26,19 @@ def get_location():
     print(obj)
     #print(counter)
     if counter == 0:
-        #print("counter zero ")
+        print("counter zero ")
         for i in range(no_of_tracker):
             i+=1
             tracker1 = float(obj[i]['lat']),float(obj[i]['lng'])
             print(tracker1)  
             data[i]=tracker1
             location= data
-            print(location)
-            async_to_sync(channel_layer.group_send("tracking",{"type":"send_location", "text":location}))
+            try:
+                async_to_sync(channel_layer.group_send('tracking',{'type':'send_location', 'location':location}))
+                print("sending sucessfull......")
+            except:
+                 print("Failed......")
+
     else:
         #print("counter >1")
         for i in range(no_of_tracker):
@@ -48,7 +52,12 @@ def get_location():
                 data[i]=tracker1
                 location ={i:{'lat':data[i][0],'lng':data[i][1]}}
                 print(location)
-                async_to_sync(channel_layer.group_send)('tracking',{'type':'send_location','text':location})             
+                # try:
+                #     print("sending sucessfull")
+                #     async_to_sync(channel_layer.group_send)('tracking',{'type':'send_location','text':location})             
+                # except:
+                #     print("faileddddddd")
+
             #print("incrementing counter")
             counter+=1
             #print(counter)    
