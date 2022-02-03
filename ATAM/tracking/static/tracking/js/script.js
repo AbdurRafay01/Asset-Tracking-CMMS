@@ -127,14 +127,14 @@ var socket = new WebSocket('ws://localhost:8000/ws/tracking/');
     for (i=1;i<=Object.keys(data).length;i++){
        marker[i]= new google.maps.Marker({
         position :new google.maps.LatLng(data[i][i-i], data[i][1]),
-        title :""+new google.maps.LatLng(data[i][i-i], data[i][1]),
+        title :"Asset "+i+"\n"+new google.maps.LatLng(data[i][i-i], data[i][1]),
         map : map,
         icon :icon,
         optimized: false,
       }); //marker initial postion set
       counter ++ ;
        };
-       
+    
       }
       else{
     
@@ -188,7 +188,7 @@ var socket = new WebSocket('ws://localhost:8000/ws/tracking/');
         //console.log(marker[marker_no])  ;
         
         marker[marker_no].setPosition(latlng);
-        marker[marker_no].setTitle("Location"+latlng)
+        marker[marker_no].setTitle("Asset"+marker_no+latlng);
         // if(i!=numDeltas){
         //     i++;
         //     console.log(i);

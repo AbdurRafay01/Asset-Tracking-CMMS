@@ -7,7 +7,4 @@ def index(request):
     # print(obj)
     # print(obj['lat'])
     # print(obj['lng'])
-
-    
-   
-    return render(request,'tracking/index.html')
+    return render(request,'tracking/index2.html')
