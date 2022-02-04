@@ -1,4 +1,4 @@
-from django import db
+
 import serial
 import time
 import string
@@ -84,9 +84,9 @@ if __name__ == "__main__":
         password="postgres",
         host="35.200.156.14",
         port="5432",
-        database="AssetTracking"
+        database_name="AssetTracking"
     )
-    tracker_1 = Tracker(1, "/dev/ttyAMA0")
+    tracker_1 = Tracker(1, "/dev/ttyAMA0") # setting tracker id and serial port name
     db_tracker1.connect_to_cloud_db()
     
     if db_tracker1.is_connected:
