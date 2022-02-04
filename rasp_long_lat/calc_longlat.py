@@ -1,3 +1,4 @@
+from django import db
 import serial
 import time
 import string
@@ -88,26 +89,28 @@ if __name__ == "__main__":
     tracker_1 = Tracker(1, "/dev/ttyAMA0")
     db_tracker1.connect_to_cloud_db()
     
-    i = 0
-    while True:
-        port = tracker_1.port_gps
-        ser=serial.Serial(port, baudrate=9600, timeout=0.5)
-        dataout = pynmea2.NMEAStreamReader()
-        newdata=ser.readline()
-        try:
-            newdata = newdata.decode('utf-8')
-        except:
-            continue
-        if newdata[0:6] == "$GPRMC":
-                tracker_1.compute_current_location(newdata)                
-                # post lng and lat to cloud postgreSQL database
-                tracker_1.post_current_location(db_tracker1.cursor, db_tracker1.connection)
-                print("Location Sent", i)
-                if i == 10:
-                    i = 0
-                i += 1
-                time.sleep(30)
-
+    if db_tracker1.is_connected:
+        i = 0
+        while True:
+            port = tracker_1.port_gps
+            ser=serial.Serial(port, baudrate=9600, timeout=0.5)
+            dataout = pynmea2.NMEAStreamReader()
+            newdata=ser.readline()
+            try:
+                newdata = newdata.decode('utf-8')
+            except:
+                continue
+            if newdata[0:6] == "$GPRMC":
+                    tracker_1.compute_current_location(newdata)                
+                    # post lng and lat to cloud postgreSQL database
+                    tracker_1.post_current_location(db_tracker1.cursor, db_tracker1.connection)
+                    print("Location Sent", i)
+                    if i == 10:
+                        i = 0
+                    i += 1
+                    time.sleep(30)
+    else:
+        db_tracker1.close_db_connection()
 # ---------------------------------- old code
 """
 try:
