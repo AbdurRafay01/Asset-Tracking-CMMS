@@ -13,7 +13,7 @@ try:
         password="postgres",
         host="35.200.156.14",
         port="5432",
-        database="AssetTracking"
+        database="test"
     )
     cursor = connection.cursor()
 
@@ -36,13 +36,13 @@ try:
                 print(gps)
                 if (lat + lng) == 0:
                     continue
-                lat = round(lat, 2)
-                lng = round(lng, 2)
+                lat = round(lat, 4)
+                lng = round(lng, 4)
                 print("lat lng", lat, lng)
                 '''query = f"UPDATE tracking_location\
                         SET lat={lat}, lng={lng}\
                         WHERE id={i};"'''
-                query = f"INSERT INTO tracking_location(lat, lng, tracker_id) VALUES ({lat}, {lng}, 1);"
+                query = f"INSERT INTO tracking_location(lat, lng, tracker_id) VALUES ({lat}, {lng}, 4);"
                 cursor.execute(query)
                 connection.commit()
 
