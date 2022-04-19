@@ -1,6 +1,7 @@
 from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import AbstractUser 
+from django.http import JsonResponse
 # Create your models here.
 
 class User(AbstractUser):
@@ -33,3 +34,4 @@ class Location(models.Model):
 
     def __str__(self):
         return  self.tracker.tracker.asset_name
+   
