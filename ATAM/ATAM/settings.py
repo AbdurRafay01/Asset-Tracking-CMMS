@@ -87,11 +87,11 @@ ASGI_APPLICATION = 'ATAM.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'test',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': 'Asset-Tracking',
+        'USER': 'farooq',
+        'PASSWORD': 'farooq123',
         # https://console.cloud.google.com/sql/instances
-        'HOST': '35.200.156.14',
+        'HOST': '34.65.219.241',
         'PORT': '5432', #at the moment of this writing google cloud postgresql is using the default postgresql port 5432
         
     }
@@ -149,4 +149,4 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-#GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyBn9zI8nW07xOdBQqarW1bGblAQsCZaNt4'
+#GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyCaMwztN6dbDERbNkKcsBE9NKcu3L27l_A'
