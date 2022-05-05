@@ -43,6 +43,7 @@ class WSConsumer(AsyncWebsocketConsumer):
              self.counter+=1
              print(self.counter)            
         self.close
+    #this function returns the latest location from database.    
     @database_sync_to_async
     def Data(self):
         tracker_dict = {}

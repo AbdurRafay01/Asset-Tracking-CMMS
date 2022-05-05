@@ -10,9 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from email.policy import default
-from pathlib import Path
+import environ
 import os
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+print(environ.Env.read_env())
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -21,10 +25,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+1mnl3=qvnldzhj3nsppa0%)0*=8lixnwt^gfq)j3l(_fmsa95'
+SECRET_KEY =env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -40,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'channels',
     'tracking',
+    'rest_framework',
     
 ]
 
@@ -87,14 +92,22 @@ ASGI_APPLICATION = 'ATAM.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Asset-Tracking',
-        'USER': 'farooq',
-        'PASSWORD': 'farooq123',
-        # https://console.cloud.google.com/sql/instances
-        'HOST': '34.65.219.241',
-        'PORT': '5432', #at the moment of this writing google cloud postgresql is using the default postgresql port 5432
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST':env('DATABASE_HOST'), 
+        'PORT': env('DATABASE_PORT'), 
         
     }
+}
+
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+       'rest_framework.permissions.AllowAny'
+    ]
 }
 
 CHANNEL_LAYERS = {
