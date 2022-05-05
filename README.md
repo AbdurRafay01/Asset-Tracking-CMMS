@@ -44,6 +44,6 @@ DATABASE_HOST=localhost
 DATABASE_PORT=5432 
 ```
 
-##Testing
+## Testing
 - To test the apis install postman and hit the endpoints for example.
 - http://localhost:8000/current_location/2
