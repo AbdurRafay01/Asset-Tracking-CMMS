@@ -1,10 +1,10 @@
-
+import json
+from urllib import response
 from django.shortcuts import render
 from .models import *
 from django.http import JsonResponse
 
 #for creating a rest api 
-
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import LocationSerializer
@@ -17,9 +17,15 @@ from rest_framework.decorators import api_view
 # Create your views here.
 
 def index(request):
-    return render(request,'tracking/index2.html')
+    return render(request,'tracking/index.html')
 
-
+def tracker(request,tracker_id):
+    current_location = Location.objects.filter(tracker=(tracker_id)).values('lat','lng').order_by('-id')[0]
+    job = Job.objects.filter(tracker=(tracker_id)).values()
+    context = {'current_location':current_location,'job':job}
+    #data = current_location|job[0]
+    #return JsonResponse(context)
+    return render(request,'tracking/tracker.html',context)
 
 @api_view(['GET', 'POST', 'DELETE'])
 def location_detail(request,tracker_id):

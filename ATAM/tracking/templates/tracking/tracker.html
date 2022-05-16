@@ -1,0 +1,51 @@
+{% extends "tracking/layout.html" %}
+{% load static %}
+
+{% block title %}tracker{% endblock %}
+
+
+
+
+{% block body %}
+<link rel="stylesheet" type="text/css" href="{% static 'tracking/css/styles.css' %}" />
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script type="module" src="{% static 'tracking/js/tracker.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaMwztN6dbDERbNkKcsBE9NKcu3L27l_A&&libraries=geometry"></script>
+<!--    // from https://github.com/bjornharrtell/jsts  -->
+<script src="http://www.geocodezip.com/scripts/javascript.util.js"></script>
+<script src="http://www.geocodezip.com/scripts/jsts.js"></script>
+
+
+
+
+    <div id="floating-panel">
+      <b>Start: </b>
+      <h6 id="start">
+        {% for data in job %}
+        {{data.origin}}
+        
+      </h6>
+      <b>End: </b>
+      <h6 id="end">
+        {{data.destination}}
+      </h6>
+      {% endfor %}
+    </div>
+    <div class="container-fluid">
+      <h3 id="head">TRACKING MAP</h3></div>
+    <div id="map"></div>
+    
+    <!-- 
+     The `defer` attribute causes the callback to execute after the full HTML
+     document has been parsed. For non-blocking uses, avoiding race conditions,
+     and consistent behavior across browsers, consider loading using Promises
+     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+    -->
+    
+    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"> 
+    </script>
+    <script type="text/javascript"> 
+        _uacct = "UA-162157-1";
+        urchinTracker();
+        </script>
+{% endblock %}

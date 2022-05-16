@@ -1,4 +1,5 @@
 
+from itertools import count
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from random import randint , uniform
@@ -52,28 +53,58 @@ class WSConsumer(AsyncWebsocketConsumer):
         for i in range(tracker):
             i+=1
             try:
-                obj=(Location.objects.filter(tracker=(i+3)).values('lat','lng').order_by('-id')[0])
+                obj=(Location.objects.filter(tracker=(i)).values('lat','lng').order_by('-id')[0])
                 tracker_dict[i]=obj
             except:
                 print("databases empty")
-        #print(tracker_dict)
         return tracker_dict
-        
-    #  for i in range(1000):
-    #          await self.send(json.dumps({'lat':round(uniform(24.9180,25.1123),4),'lng':round(uniform(67.0971,67.3211),4)}))
-    #          await sleep(3)
-    #     self.close()
 
-    # def Real_time_data(self):
-    #     while True:
-    #         #obj= Model.objects.filter(testfield=12).order_by('-id')[0]
-    #         pass
 
-# from channels.db import database_sync_to_async
+class WSConsumerTracker(AsyncWebsocketConsumer):
+    data = {}
+    counter = 0
+    async def connect(self):
 
-# async def connect(self):
-#     self.username = await self.get_name()
-
-# @database_sync_to_async
-# def get_name(self):
-#     return User.objects.all()[0].name
+        self.tracker_id =self.scope['url_route']['kwargs']['tracker_id']
+        print(self.tracker_id)
+        print(self.tracker_id)
+        print("connected!")
+        await self.accept()
+        while self.connect :
+            obj = await self.Data(self.tracker_id)
+            if self.counter == 0 :   
+                print(obj)    
+                tracker1 = float(obj[1]['lat']),float(obj[1]['lng'])
+                print(tracker1)  
+                self.data[0]=tracker1
+                await self.send(json.dumps(self.data,indent=4))
+                await sleep(30)
+            else:    
+                print("counter >1") 
+                print(self.data[0])
+                tracker1 = float(obj[1]['lat']),float(obj[1]['lng'])
+                if (self.data[0]) == (tracker1):
+                    print("Same value as previous continue.....")
+                else:
+                    print("value is not same sending.....")   
+                    self.data[0]=tracker1
+                    await self.send(json.dumps(self.data,indent=4))
+                    #await self.send(json.dumps({{'lat':self.data[i][0],'lng':self.data[i][1]}},indent=4))
+                await sleep(30)             
+            print("incrementing counter")
+            self.counter+=1
+            print(self.counter)            
+        self.close
+    
+    @database_sync_to_async
+    def Data(self,tracker_id):
+        tracker_dict = {}
+        #tracker = len(Tracker.objects.all())
+        #self.no_of_tracker = tracker
+        print("tracker id :",tracker_id)
+        try:
+            obj=(Location.objects.filter(tracker=(tracker_id)).values('lat','lng').order_by('-id')[0])
+            tracker_dict[tracker_id]=obj
+        except:
+                print("databases empty")
+        return tracker_dict

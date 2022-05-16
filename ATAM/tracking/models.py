@@ -1,14 +1,16 @@
-from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import AbstractUser 
 from django.http import JsonResponse
 # Create your models here.
+
 
 class User(AbstractUser):
     phone_number=models.IntegerField('User phone number ',default=0,null=False,help_text="Number format:0300-1234567")
 
     def __str__(self):
         return  self.username
+
+
 class Asset(models.Model):
     asset_name = models.CharField('Tracker name ',max_length=30) 
     description = models.TextField()
@@ -16,6 +18,7 @@ class Asset(models.Model):
 
     def __str__(self):
         return self.asset_name
+
 
 class Tracker(models.Model):
     status_choices = (
@@ -27,6 +30,8 @@ class Tracker(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return  self.tracker.asset_name
+
+
 class Location(models.Model):
     tracker = models.ForeignKey(Tracker,on_delete=models.CASCADE,verbose_name='related tracker')
     lat = models.DecimalField('Tracker latitude value',max_digits=8,decimal_places=4)
@@ -34,4 +39,15 @@ class Location(models.Model):
 
     def __str__(self):
         return  self.tracker.tracker.asset_name
-   
+
+
+class Job(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name='related user')
+    tracker = models.ForeignKey(Tracker,on_delete=models.CASCADE,verbose_name='related tracker')
+    title = models.CharField('Job Title',max_length=150)
+    origin = models.CharField('Job Origin',max_length=150)
+    destination = models.CharField('Job Destination',max_length=150)
+    description = models.TextField()
+    def __str__(self):
+        return  self.title
+
