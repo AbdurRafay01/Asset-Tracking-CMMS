@@ -1,14 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser 
+
 from django.http import JsonResponse
+from user.models import User
 # Create your models here.
 
 
-class User(AbstractUser):
-    phone_number=models.IntegerField('User phone number ',default=0,null=False,help_text="Number format:0300-1234567")
-
-    def __str__(self):
-        return  self.username
 
 
 class Asset(models.Model):
