@@ -119,7 +119,7 @@ var marker=[];
 var position = [0, 0];
 var marker_no=0;
 var counter= 1;  
-var socket = new WebSocket('ws://localhost:8000/ws/tracking/'); 
+var socket = new WebSocket('ws://localhost:8000/current_location/'); 
   socket.onmessage =  function(event){
     var data = JSON.parse(event.data);
     console.log(data);

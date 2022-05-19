@@ -1,7 +1,8 @@
-import imp
 from django.urls import path
-from .consumers import WSConsumer,WSConsumerTracker
+from .consumers import AllLocation,TrackerLocation
 ws_urlpatterns = [
-    path('ws/tracking/',WSConsumer.as_asgi()),
-    path('ws/tracking/tracker/<int:tracker_id>',WSConsumerTracker.as_asgi())
+    path('current_location/',AllLocation.as_asgi()),
+    path('current_location/tracker/<int:tracker_id>',TrackerLocation.as_asgi()),
+
+    #path('stories/notification_testing/',NotificationConsumer.as_asgi())
 ]

@@ -9,3 +9,9 @@ python -c 'import <package name>; print(<package name>.__version__)'
 
 #After installing make sure to add to requirements.txt
 
+#celery commands:
+#to start the beat
+celery -A ATAM beat -l INFO
+
+#to start the worker
+celery -A ATAM worker -l info -P gevent

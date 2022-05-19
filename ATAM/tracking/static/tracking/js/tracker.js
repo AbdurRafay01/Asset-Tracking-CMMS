@@ -31,7 +31,7 @@ let icon = {
   let marker_position = null ;
   let polygon_bounds = null;
 
-  var socket = new WebSocket('ws://localhost:8000/ws/tracking/tracker/1'); 
+  var socket = new WebSocket('ws://localhost:8000/current_location/tracker/1'); 
     socket.onmessage =  function(event){
       var data = JSON.parse(event.data);
       console.log(data);
@@ -50,9 +50,10 @@ let icon = {
         //console.log(polygon_bounds[1]);
         if (google.maps.geometry.poly.containsLocation(marker_position.getPosition(),polygon_bounds)) {
             //markers[i].setMap(null);
-            alert("yes");
+            console.log("In boundary")
         }else{
-            alert("no");
+            alert("out of boundar creating notification!")
+            socket.send(1);
         }
         
         //console.log(marker_position);

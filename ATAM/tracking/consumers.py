@@ -4,9 +4,12 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from random import randint , uniform
 from asyncio import sleep
-from .models import Location,Tracker
+from .models import Location,Tracker,Notification,User
 from channels.db import database_sync_to_async
-class WSConsumer(AsyncWebsocketConsumer):
+
+
+
+class AllLocation(AsyncWebsocketConsumer):
     no_of_tracker = 0;
     counter = 0
     data = {}
@@ -60,51 +63,64 @@ class WSConsumer(AsyncWebsocketConsumer):
         return tracker_dict
 
 
-class WSConsumerTracker(AsyncWebsocketConsumer):
-    data = {}
-    counter = 0
+class TrackerLocation(AsyncWebsocketConsumer):
+    
     async def connect(self):
-
+        await self.channel_layer.group_add('location',self.channel_name)
         self.tracker_id =self.scope['url_route']['kwargs']['tracker_id']
-        print(self.tracker_id)
-        print(self.tracker_id)
-        print("connected!")
+        self.data = {}
         await self.accept()
-        while self.connect :
-            obj = await self.Data(self.tracker_id)
-            if self.counter == 0 :   
-                print(obj)    
-                tracker1 = float(obj[1]['lat']),float(obj[1]['lng'])
-                print(tracker1)  
-                self.data[0]=tracker1
-                await self.send(json.dumps(self.data,indent=4))
-                await sleep(30)
-            else:    
-                print("counter >1") 
-                print(self.data[0])
-                tracker1 = float(obj[1]['lat']),float(obj[1]['lng'])
-                if (self.data[0]) == (tracker1):
-                    print("Same value as previous continue.....")
-                else:
-                    print("value is not same sending.....")   
-                    self.data[0]=tracker1
-                    await self.send(json.dumps(self.data,indent=4))
-                    #await self.send(json.dumps({{'lat':self.data[i][0],'lng':self.data[i][1]}},indent=4))
-                await sleep(30)             
-            print("incrementing counter")
-            self.counter+=1
-            print(self.counter)            
-        self.close
+
+    async def disconnect(self,event):
+        await self.channel_layer.group_discard('location',self.channel_name)
+        print("Disconnected! ",event)
+   
+    async def send_location(self,event):
+        location_data = json.loads(event['text']) 
+        track_id = str(self.tracker_id)
+        tracker_location = float(location_data[track_id][0]),float(location_data[track_id][1])
+        
+        if self.data:
+            
+            if self.data[0] == tracker_location:
+                print("same location as previous pass......")
+            else:
+                print("different location then previous sending to front-end.....")   
+                self.data[0]=tracker_location
+                await self.send(json.dumps(self.data))
+           
+        else:
+            #print("different location then previous sending to front-end.....")   
+            self.data[0]=tracker_location
+            await self.send(json.dumps(self.data))
+            #await sleep(30)
+
+            
+    async def websocket_receive(self,event):
+        print(event)
+        data_to_get=json.loads(event['text'])
+        print(data_to_get)
+        user_to_get=await self.get_user(int(data_to_get))
+        print(user_to_get)
+        await self.create_notification(user_to_get)
+#         self.room_group_name='test_consumer_group'
+#         channel_layer=self.get_channel_layer()
+#         await (channel_layer.group_send)(
+#             self.room_group_name,
+#             {
+#                 "type":"send_notification",
+#                 "value":json.dumps(get_of)
+#             }
+# )
+        print('receive',event)
+    @database_sync_to_async
+    def create_notification(self,receiver,typeof="Out of Region",status="unread"):
+        notification_to_create=Notification.objects.create(user_revoker=receiver,type_of_notification=typeof)
+        return (notification_to_create.user_revoker.username,notification_to_create.type_of_notification)
     
     @database_sync_to_async
-    def Data(self,tracker_id):
-        tracker_dict = {}
-        #tracker = len(Tracker.objects.all())
-        #self.no_of_tracker = tracker
-        print("tracker id :",tracker_id)
+    def get_user(self,user_id):
         try:
-            obj=(Location.objects.filter(tracker=(tracker_id)).values('lat','lng').order_by('-id')[0])
-            tracker_dict[tracker_id]=obj
+            return User.objects.get(id=user_id)
         except:
-                print("databases empty")
-        return tracker_dict
+            return "Unknown User"
