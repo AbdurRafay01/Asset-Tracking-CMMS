@@ -22,17 +22,20 @@
 </body>
 </html>
 
-    <script>
-
+<script>
+document.cookie = 'sessionid' +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+document.cookie = 'csrftoken' +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 $(document).ready(function(){
 $("#login").click(function(){
     var serializedData = $("#login_form").serialize();
     console.log(serializedData);        
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:8000/user/login/',
+        url: '{% url "api_login" %}',
         data: serializedData,
         success: function (response) {
+            console.log(response.token)
+            window.localStorage.setItem('token', response.token);
             console.log(response); 
             location.href = "http://localhost:8000/"
         },

@@ -4,7 +4,7 @@ from django.contrib.auth import login
 from rest_framework import permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
-
+from django.shortcuts import redirect
 
 from rest_framework import generics, permissions
 from rest_framework.response import Response
@@ -12,11 +12,13 @@ from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer
 # Create your views here.
 
-def test_login(request):
+def user_login(request):
     return render(request,'user/login.html')
 
 
-
+def user_logout(request):
+    request.session.clear()
+    return redirect('login')
 
 
 
