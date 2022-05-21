@@ -11,6 +11,15 @@ from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer
 # Create your views here.
+
+def test_login(request):
+    return render(request,'user/login.html')
+
+
+
+
+
+
 # Register API
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -31,5 +40,6 @@ class LoginAPI(KnoxLoginView):
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+        print(user)
         login(request, user)
         return super(LoginAPI, self).post(request, format=None)

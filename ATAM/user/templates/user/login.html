@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script type="text/javascript" ></script>
+    </head>
+<body>
+    <h2 >Login</h2>
+    <br>
+    <br>
+
+
+<form  id="login_form">
+    {% csrf_token %}
+    
+        <input  type="text" name="username" placeholder="Username" id="username">
+        <input  type="password" name="password" placeholder="Password"  id="password">
+
+
+    <input type="button" value="Submit" id="login">
+</form>
+</body>
+</html>
+
+    <script>
+
+$(document).ready(function(){
+$("#login").click(function(){
+    var serializedData = $("#login_form").serialize();
+    console.log(serializedData);        
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8000/user/login/',
+        data: serializedData,
+        success: function (response) {
+            console.log(response); 
+            location.href = "http://localhost:8000/"
+        },
+        error: function (XHR, status, err) {
+            console.log("Error!")    
+            
+        }
+    })
+})
+})
+    
+
+
+</script>

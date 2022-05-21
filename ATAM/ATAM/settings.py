@@ -47,10 +47,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'user',
     'knox',
+    'corsheaders',
     
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware", 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -174,3 +176,13 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyCaMwztN6dbDERbNkKcsBE9NKcu3L27l_A'
+
+
+# ============= Cores Header Origin ====================
+    
+
+ALLOWED_HOSTS=['*']
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+    
