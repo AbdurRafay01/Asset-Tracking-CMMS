@@ -1,52 +1,116 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script type="text/javascript" ></script>
-    </head>
-<body>
-    <h2 >Login</h2>
-    <br>
-    <br>
-
-
-<form  id="login_form">
-    {% csrf_token %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" 
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     
-        <input  type="text" name="username" placeholder="Username" id="username">
-        <input  type="password" name="password" placeholder="Password"  id="password">
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <style>
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px #000;
+            position: absolute;
+            top: 15vh;
 
+                         }
+        .bg {
+            background: url("../static/user/images/asset2.jpg") no-repeat;
+            width: 100%;
+            height: 100vh;
+            bottom: 100vh;
+        }
+        .main
+        {
+            padding-top: 2px;
+            position: relative;
+            bottom: -500px;
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+    
+<div class="main">
+  <p style="font-size: 1em">Asset tracking devices for high-value equipment such as earthmovers,
+     attachments, bobcats, loaders, tractors, and more. Improve equipment visibility and utilization
+      across worksites with wired or battery-powered devices. Maintain compliance and capture run-hours
+       to schedule preventative maintenance.</p>
+</div>
+<section class="container-fluid bg">
+    <section class="row justify-content-lg-end">
+        <section class="col-12 col-sm-6 col-md-3">
+                    <form class="form-container" id="login_form" >
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <h2 style="text-align: center"> Sign in to ATAM</h2>
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" aria-describedby="userHelp" placeholder="Username">
+                            
+                         </div>
+        <div class="form-group">
+             <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password">
+        </div>
 
-    <input type="button" value="Submit" id="login">
-</form>
+        <input  type="button" class="btn btn-primary btn-block"value="Submit" id="login">
+
+            <label class="form-reg-label" for="exampleCheck1">Don't have an account? <a href="{% url 'register' %}">Register Here</a> </label>
+
+        </form>
+        </section>
+    </section>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
 </body>
 </html>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" ></script>
 <script>
-document.cookie = 'sessionid' +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-document.cookie = 'csrftoken' +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+
+//console.log("document loading")
 $(document).ready(function(){
-$("#login").click(function(){
-    var serializedData = $("#login_form").serialize();
-    console.log(serializedData);        
+  
+   
+    
+    $("#login").click(function(){
+  
+
+    var username = $('#username').val();
+    var password =$('#password').val();
+ 
+    var serializedData = $("#login_form").serialize()+"&username="+username+"&password="+password; 
     $.ajax({
         type: 'POST',
         url: '{% url "api_login" %}',
         data: serializedData,
+       
         success: function (response) {
             console.log(response.token)
             window.localStorage.setItem('token', response.token);
-            console.log(response); 
+            console.log(response);
             location.href = "http://localhost:8000/"
         },
         error: function (XHR, status, err) {
-            console.log("Error!")    
-            
+            console.log("Error!")
+
         }
     })
 })
 })
-    
-
 
 </script>

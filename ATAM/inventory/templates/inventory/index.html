@@ -1,0 +1,103 @@
+{% extends "tracking/layout.html" %}
+{% load static %}
+{% block body %}
+	
+	
+<!-- CSS only -->
+<link rel="stylesheet" type="text/css" href="{% static 'tracking/css/styles.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" 
+rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+	<style>
+        header
+{
+	font-size: 1.5em;
+	color: black;
+}
+th
+{
+	font-size: 1em;
+	padding: 15px;
+	margin-left: 50px;
+	background-color: skyblue;
+}
+td
+{
+	font-size: 1em;
+	padding: 15px;
+	margin-left: 10px;
+}
+    </style>
+
+<div>
+	
+	<div style="margin-top:50px;float: right;margin-right:7%">
+		<button type="submit" class="btn btn-primary" name="button">Add Asset</button>
+	
+	</div>
+	<table class="table table-hover">
+		<header style="margin-top:50px">
+			<h1>Asset</h1>
+		</header>
+        <thead>
+			<tr style="text-align: left; background-color: skyblue;">
+				<th>Asset Name</th>
+				<th>Assigned Tracker</th>
+				<th>Asset Description</th>    
+				<th>Created At</th>
+			<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for asset in asset %}
+        <tr> 
+            <td>{{ asset.asset_name }}</td>
+            
+            <td>{{ asset.assigned_tracker }}</td>
+            <td>{{ asset.description }}</td>
+            <td>{{ asset.created_at }}</td>
+            <td> <a href="{% url 'inventory:add_asset_instance' asset.id %}"><button type="submit" class="btn btn-warning btn-sm" name="button">Edit</button></a>
+             <a href="{% url 'inventory:delete_asset' asset.id %}"><button type="submit" class="btn btn-danger btn-sm" name="button">Delete</button></a></td>
+        </tr>
+        {% endfor %}
+	</tbody>
+    </table>
+
+	<div style="margin-top:50px;float: right;margin-right:7%">
+   
+		<button type="submit" class="btn btn-primary" name="button">Add Tracker</button>
+	</div>
+
+<table class="table table-hover">
+		<header>
+			<h1>Tracker</h1>
+		</header>
+        <thead>
+			<tr style="text-align: left; background-color: skyblue;">
+			<th>Tracker Name</th>
+			<th>Related Asset</th>
+			<th>Status</th>
+			<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+        {% for tracker in tracker %}
+        <tr> 
+            <td>{{ tracker.tracker_name }}</td>
+            
+            <td>{{ tracker.tracker }}</td>
+            <td>{{ tracker.status }}</td>
+			
+			
+            <td style="float: right"> <a href="{% url 'inventory:add_tracker_instance' tracker.id %}"><button type="submit" class="btn btn-warning btn-sm" name="button">Edit</button></a>
+             <a href="{% url 'inventory:delete_tracker' tracker.id %}"><button type="submit" class="btn btn-danger btn-sm" name="button">Delete</button></a></td>
+            
+        </tr>
+        {% endfor %}
+	</tbody>
+    </table>
+
+</div>
+{% endblock %}

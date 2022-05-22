@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+</head>
+<body>
+    <h1>Asset</h1>
+    <table>
+        <tr>
+            <th>Asset Name</th>
+            <th>Assigned Tracker</th>
+            <th>Asset Description</th>    
+            <th>Created At</th>
+        </tr>
+        {% for asset in asset %}
+        <tr> 
+            <td>{{ asset.asset_name }}</td>
+            
+            <td>{{ asset.assigned_tracker }}</td>
+            <td>{{ asset.description }}</td>
+            <td>{{ asset.created_at }}</td>
+            <td> <a href="{% url 'inventory:add_asset_instance' asset.id %}">[Edit]</a></td>
+            <td> <a href="{% url 'inventory:delete_asset' asset.id %}">[Delete]</a></td>
+        </tr>
+        {% endfor %}
+        
+    </table>
+
+
+
+    <h1>Trcker</h1>
+    <table>
+        <tr>
+            <th>Tracker Name</th>
+            <th>Related Asset</th>
+            <th>Status</th>    
+            
+        </tr>
+        {% for tracker in tracker %}
+        <tr> 
+            <td>{{ tracker.tracker_name }}</td>
+            
+            <td>{{ tracker.tracker }}</td>
+            <td>{{ tracker.status }}</td>
+            <td> <a href="{% url 'inventory:add_tracker_instance' tracker.id %}">[Edit]</a></td>
+            <td> <a href="{% url 'inventory:delete_tracker' tracker.id %}">[Delete]</a></td>
+            
+        </tr>
+        {% endfor %}
+        
+    </table>
+    
+    
+    
+    <a href="{% url 'inventory:add_asset' %}">[Add Asset]</a>
+    <a href="{% url 'inventory:add_tracker' %}">[Add Tracker]</a>
+ 
+</body>
+</html>

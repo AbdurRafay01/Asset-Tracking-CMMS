@@ -19,6 +19,9 @@ from rest_framework.decorators import api_view
 def index(request):
     return render(request,'tracking/index.html')
 
+def setting(request):
+    return render(request,'tracking/settings.html')
+
 def tracker(request,tracker_id):
     current_location = Location.objects.filter(tracker=(tracker_id)).values('lat','lng').order_by('-id')[0]
     job = Job.objects.filter(tracker=(tracker_id)).values()
