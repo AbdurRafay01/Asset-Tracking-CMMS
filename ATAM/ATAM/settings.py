@@ -49,9 +49,10 @@ INSTALLED_APPS = [
     'knox',
     'corsheaders',
     'inventory',
+    'crispy_forms',
     
 ]
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware", 
     'django.middleware.security.SecurityMiddleware',

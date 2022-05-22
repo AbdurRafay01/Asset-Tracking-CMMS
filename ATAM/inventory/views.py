@@ -22,7 +22,7 @@ def add_asset(request):
         form = AddAssetForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/inventory')
+            return redirect('/inventory/')
     else:
 
         context = {
@@ -36,7 +36,7 @@ def update_asset(request,id):
         form = AddAssetForm(request.POST,instance=asset)
         if form.is_valid():
             form.save()
-            return redirect('/inventory')
+            return redirect('/inventory/')
 
 
     else:
@@ -49,7 +49,7 @@ def delete_asset(request,id):
     asset_instance = Asset.objects.filter(pk=id)
     print("deleted!",asset_instance)
     asset_instance.delete()
-    return redirect('/inventory')
+    return redirect('/inventory/')
 
 
 
@@ -61,7 +61,7 @@ def add_tracker(request):
         form = AddTrackerForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/inventory')
+            return redirect('/inventory/')
     else:
 
         context = {
@@ -75,7 +75,7 @@ def update_tracker(request,id):
         form = AddTrackerForm(request.POST,instance=tracker)
         if form.is_valid():
             form.save()
-            return redirect('/inventory')
+            return redirect('/inventory/')
     else:
         form = AddTrackerForm(instance=tracker)
 
@@ -84,4 +84,4 @@ def update_tracker(request,id):
 def delete_tracker(request,id):
     tracker_instance = Tracker.objects.filter(pk=id)
     tracker_instance.delete()
-    return redirect('/inventory')
+    return redirect('/inventory/')
