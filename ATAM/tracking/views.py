@@ -1,4 +1,5 @@
 import json
+from multiprocessing import context
 from urllib import response
 from django.shortcuts import render
 from .models import *
@@ -17,7 +18,24 @@ from rest_framework.decorators import api_view
 # Create your views here.
 
 def index(request):
-    return render(request,'tracking/index.html')
+    tracker = Tracker.objects.all()
+    return render(request,'tracking/index.html',{"tracker":tracker})
+
+def dashboard(request):
+    total_users = len(User.objects.all())
+    total_trackers = len(Tracker.objects.all())
+    total_assets = len(Asset.objects.all())
+    jobs = Job.objects.all()
+    total_jobs = len(jobs)
+    context={
+        "total_users":total_users,
+        "total_tracker":total_trackers,
+        "total_assets":total_assets,
+        "total_jobs":total_jobs,
+        "jobs":jobs
+    }
+    return render(request,'tracking/dashboard.html',context)
+
 
 def setting(request):
     return render(request,'tracking/settings.html')
