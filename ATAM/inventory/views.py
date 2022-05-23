@@ -1,4 +1,4 @@
-from turtle import right
+# from turtle import right
 from django.shortcuts import render
 from tracking.models import Asset,Tracker
 from .forms import AddAssetForm,AddTrackerForm

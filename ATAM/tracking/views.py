@@ -77,7 +77,7 @@ def location_list(request):
         serializer = LocationSerializer(locations, many=True)
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
         # 'safe=False' for objects serialization
- 
+        
     elif request.method == 'POST':
         location_data = JSONParser().parse(request)
         serializer = LocationSerializer(data=location_data)
@@ -87,4 +87,3 @@ def location_list(request):
             
         return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     
-   

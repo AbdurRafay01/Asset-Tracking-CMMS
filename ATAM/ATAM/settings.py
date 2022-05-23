@@ -16,7 +16,7 @@ import os
 # Initialise environment variables
 env = environ.Env()
 environ.Env.read_env()
-print(environ.Env.read_env())
+print("Enviroment:", env("DATABASE_NAME"))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -47,14 +47,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'user',
     'knox',
-    'corsheaders',
-    'inventory',
-    'crispy_forms',
     
 ]
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware", 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -169,7 +165,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'inventory/static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "tracking/static/"),
 )
@@ -178,13 +174,3 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyCaMwztN6dbDERbNkKcsBE9NKcu3L27l_A'
-
-
-# ============= Cores Header Origin ====================
-    
-
-ALLOWED_HOSTS=['*']
-
-CORS_ORIGIN_ALLOW_ALL = True
-
-    
