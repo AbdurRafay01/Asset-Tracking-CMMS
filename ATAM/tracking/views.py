@@ -1,5 +1,6 @@
 import json
 from urllib import response
+from wsgiref.util import request_uri
 from django.shortcuts import render
 from .models import *
 from django.http import JsonResponse
@@ -21,6 +22,9 @@ def index(request):
 
 def setting(request):
     return render(request,'tracking/settings.html')
+
+def notification_alert(request):
+    return render(request, 'tracking/tracker.html')
 
 def tracker(request,tracker_id):
     current_location = Location.objects.filter(tracker=(tracker_id)).values('lat','lng').order_by('-id')[0]

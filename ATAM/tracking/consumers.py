@@ -1,4 +1,5 @@
 
+import asyncio
 from itertools import count
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
@@ -6,7 +7,33 @@ from random import randint , uniform
 from asyncio import sleep
 from .models import Location,Tracker,Notification,User
 from channels.db import database_sync_to_async
+import time
 
+class Notification_Alert(AsyncWebsocketConsumer):
+    notification_exist = False
+    async def connect(self):
+        await self.accept()
+        while self.connect:
+            obj = await self.Data()
+            # sleep(10)
+            if self.notification_exist:
+                # print("Sending udpate to client about tracker notification")
+                alert = {"status": 1}
+                await self.send(json.dumps(alert, indent=4))
+            else:
+                alert = {"status": 0}
+                await self.send(json.dumps(alert, indent=4))
+                # print("no updates about region cross")
+                
+    async def disconnect(self, code):
+        return await super().disconnect(code)
+
+    #this function returns the latest notification from the database  
+    @database_sync_to_async
+    def Data(self):
+        notifications = len(Notification.objects.all())
+        self.notification_exist = notifications > 0
+        return
 
 
 class AllLocation(AsyncWebsocketConsumer):
@@ -16,11 +43,11 @@ class AllLocation(AsyncWebsocketConsumer):
     async def connect(self):
         
         await self.accept()
-        while self.connect :
-             obj = await self.Data()
-             print(obj)
-             print(self.counter)
-             if  self.counter == 0:
+        while self.connect:
+            obj = await self.Data()
+            print(obj)
+            print(self.counter)
+            if  self.counter == 0:
                 print("counter zero ")
                 for i in range(self.no_of_tracker):
                     i+=1
@@ -29,9 +56,9 @@ class AllLocation(AsyncWebsocketConsumer):
                     self.data[i]=tracker1
                 await self.send(json.dumps(self.data,indent=4))
                 await sleep(30)
-             else:
-                 print("counter >1")
-                 for i in range(self.no_of_tracker):
+            else:
+                print("counter >1")
+                for i in range(self.no_of_tracker):
                     i+=1
                     print(self.data[i])
                     tracker1 = float(obj[i]['lat']),float(obj[i]['lng'])
@@ -42,10 +69,10 @@ class AllLocation(AsyncWebsocketConsumer):
                         print("value is not same sending.....")   
                         self.data[i]=tracker1
                         await self.send(json.dumps({i:{'lat':self.data[i][0],'lng':self.data[i][1]}},indent=4))
-                 await sleep(30)             
-             print("incrementing counter")
-             self.counter+=1
-             print(self.counter)            
+                await sleep(30)             
+            print("incrementing counter")
+            self.counter+=1
+            print(self.counter)            
         self.close
     #this function returns the latest location from database.    
     @database_sync_to_async
@@ -102,6 +129,7 @@ class TrackerLocation(AsyncWebsocketConsumer):
         print(data_to_get)
         user_to_get=await self.get_user(int(data_to_get))
         print(user_to_get)
+        # RAFAY creating changes to website a/c to warning notification
         await self.create_notification(user_to_get)
 #         self.room_group_name='test_consumer_group'
 #         channel_layer=self.get_channel_layer()
