@@ -8,9 +8,14 @@
                 <!-- Page content-->
                 <div class="container-fluid">
                     <h3 id="head">TRACKING MAP</h3>
-                    
+                    <div><h5>Tracker list</h5></div>
+                    {% for tracker in tracker%}
+                    <li><a href="{% url 'tracking:tracker' tracker.id %}">
+                      {{tracker.tracker_name}}</a></li>
+                      {% endfor %}
     <!--The div element for the map -->
     <div id="map"></div>
+    
 
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script

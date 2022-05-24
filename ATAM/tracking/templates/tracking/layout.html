@@ -21,18 +21,18 @@
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">
                 Asset Tracking And Management
+                    
+                    
             </div>
             <div class="list-group list-group-flush">
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Dashboard</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:dashboard' %}">Dashboard</a>
                 <a id="notification_list_item" class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:notification' %}">Notification</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Asset Tracking</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                    href="{% url 'inventory:index' %}">Inventory</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">Maintenance
-                    Scheduling</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                    href="{% url 'tracking:settings' %}">Settings</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Help Center</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:settings' %}">Settings</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">Maintenance Scheduling</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'inventory:index' %}">Inventory</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:index' %}">Asset Tracking</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:dashboard' %}">Dashboard</a>
             </div>
         </div>
         <!-- Page content wrapper-->

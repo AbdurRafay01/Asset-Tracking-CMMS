@@ -81,7 +81,7 @@ $("#register").click(function(){
             console.log(response.token)
             window.localStorage.setItem('token', response.token);
             console.log(response);
-            location.href = "http://localhost:8000/user/login/"
+            location.href = "http://localhost:8000/"
         },
         error: function (XHR, status, err) {
             console.log("Error!")
