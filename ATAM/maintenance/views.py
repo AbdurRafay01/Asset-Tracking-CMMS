@@ -19,9 +19,11 @@ def trackers_list():
 # get latest maintenace details of all trackers from maintenance table
 def maintenance_detail():
     trackerids = trackers_list()
+    print(trackerids)
     details = []
 
     asset_names = []
+    
     for trackerid in trackerids:
         details.append(Maintenance.objects.filter(tracker=trackerid).order_by("-id")[0])
         asset_names.append(Location.objects.filter(tracker_id=trackerid)[0])
@@ -117,7 +119,7 @@ def driver(request, tracker_iD):
         # else:
         new_entry = Maintenance.objects.create(tracker = tracker_iD, total_distance = d, description = msg)
         new_entry.save()
-
+    print(msg)
     return render(request,'maintenance/driver.html',{
         "name": asset_name,
         "alert": msg,
@@ -185,16 +187,18 @@ def reset_status(request,tracker_iD):
     prev_loc = Location.objects.filter(tracker=tracker_iD).order_by("-id")[0]
     # if request.method == 'POST':
         # form = UpdateMaintenanceForm(request.POST, instance=asset)
+    print(asset.maintenance_status)
     asset.maintenance_status = "Done"
     asset.description = "NO MAINTENACE SCHEDULE"
     asset.total_distance = 0
         # if form.is_valid():
             # form.save()
     asset.save()
+    print(asset.maintenance_status)
     new_location = Location.objects.create(lat = float(prev_loc.lat), lng = float(prev_loc.lng), tracker_id = prev_loc.tracker_id)
     new_location.save()
 
-    return redirect(f'/maintenance/driver/{tracker_iD}')
+    return redirect("/maintenance/")
     # else:
 
         # return redirect('/maintenance/')

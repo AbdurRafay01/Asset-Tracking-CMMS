@@ -24,8 +24,8 @@ urlpatterns = [
 
     path('',include('tracking.urls')),
     path('user/',include('user.urls')),
-    path('maintenance/',include('maintenance.urls'))
-]
+    path('maintenance/',include('maintenance.urls')),
+
 
     #path('',include('tracking.urls')),
     path('tracking/',include('tracking.urls')),
