@@ -32,7 +32,8 @@ def  get_location():
         print("databases empty")
     async_to_sync(channel_layer.group_send)('location',{
         'type':'send_location',
-        'text':json.dumps(tracker_location)
+        'text':json.dumps(tracker_location),
+        
     })
     
 @shared_task

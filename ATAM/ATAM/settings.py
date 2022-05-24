@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'fontawesomefree',
     'inventory',
     'crispy_forms',
-    
 ]
 
 MIDDLEWARE = [
@@ -172,6 +171,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "tracking/static/"),
     os.path.join(BASE_DIR, "fontawesomefree"),
+    os.path.join(BASE_DIR, "user/static/")
     # os.path.join(BASE_DIR, "bootstrap513"),
 )
 # Default primary key field type

@@ -52,9 +52,6 @@ def delete_asset(request,id):
     return redirect('/inventory/')
 
 
-
-
-
 def add_tracker(request):
     form = AddTrackerForm()
     if request.method == 'POST':
