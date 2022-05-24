@@ -1,4 +1,5 @@
 
+import asyncio
 from itertools import count
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
@@ -6,7 +7,47 @@ from random import randint , uniform
 from asyncio import sleep
 from .models import Location,Tracker,Notification,User
 from channels.db import database_sync_to_async
+import time
 
+class Notification_Alert(AsyncWebsocketConsumer):
+    notification_exist = False
+    async def connect(self):
+        
+        self.channel_group_name = 'core-realtime-data'
+
+        await self.channel_layer.group_add(
+            self.channel_group_name,
+            self.channel_name
+        )
+        
+        await self.accept()
+
+    async def disconnect(self, code):
+
+        await self.channel_layer.group_discard(
+            self.channel_group_name,
+            self.channel_name
+        )
+    
+    async def receive(self, text_data=None):
+        print(text_data)
+        pass
+    
+    async def loc_message(self, event):
+        msg = json.loads(event['message'])
+        print(201, "notification sending to socket")
+        await self.send(text_data=json.dumps(
+            {
+                'msg': msg
+            }
+        ))
+
+    #this function returns the latest notification from the database  
+    @database_sync_to_async
+    def Data(self):
+        notifications = len(Notification.objects.all())
+        self.notification_exist = notifications > 0
+        return
 
 
 class AllLocation(AsyncWebsocketConsumer):
@@ -16,11 +57,11 @@ class AllLocation(AsyncWebsocketConsumer):
     async def connect(self):
         
         await self.accept()
-        while self.connect :
-             obj = await self.Data()
-             print(obj)
-             print(self.counter)
-             if  self.counter == 0:
+        while self.connect:
+            obj = await self.Data()
+            print(obj)
+            print(self.counter)
+            if  self.counter == 0:
                 print("counter zero ")
                 for i in range(self.no_of_tracker):
                     i+=1
@@ -29,9 +70,9 @@ class AllLocation(AsyncWebsocketConsumer):
                     self.data[i]=tracker1
                 await self.send(json.dumps(self.data,indent=4))
                 await sleep(30)
-             else:
-                 print("counter >1")
-                 for i in range(self.no_of_tracker):
+            else:
+                print("counter >1")
+                for i in range(self.no_of_tracker):
                     i+=1
                     print(self.data[i])
                     tracker1 = float(obj[i]['lat']),float(obj[i]['lng'])
@@ -42,10 +83,10 @@ class AllLocation(AsyncWebsocketConsumer):
                         print("value is not same sending.....")   
                         self.data[i]=tracker1
                         await self.send(json.dumps({i:{'lat':self.data[i][0],'lng':self.data[i][1]}},indent=4))
-                 await sleep(30)             
-             print("incrementing counter")
-             self.counter+=1
-             print(self.counter)            
+                await sleep(30)             
+            print("incrementing counter")
+            self.counter+=1
+            print(self.counter)            
         self.close
     #this function returns the latest location from database.    
     @database_sync_to_async

@@ -1,99 +1,99 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>
-           
-            {% block title %}
-            {% endblock %}
-        </title>
-        <!-- Favicon-->
-      
-        
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>{% block title %} {% endblock %}</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="stylesheet" href="{% static 'tracking/css/main.css' %}">
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+</head>
+
+<body>
     
-       
-   
-    </head>
-    <body>
-        
-        <div class="d-flex" id="wrapper">
-            <!-- Sidebar-->
-            <div class="border-end bg-white" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light"><strong>Asset Tracking And Management</strong></div>
-                <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:dashboard' %}">Dashboard</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:index' %}">Asset Tracking</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'inventory:index' %}">Inventory</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">Maintenance Scheduling</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:settings' %}">Settings</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Help Center</a>
-                </div>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar-->
+        <div class="border-end bg-white" id="sidebar-wrapper">
+            <div class="sidebar-heading border-bottom bg-light">
+                Asset Tracking And Management
+                    
+                    
             </div>
-            <!-- Page content wrapper-->
-            <div id="page-content-wrapper">
-                <!-- Top navigation-->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                    <div class="container-fluid">
-                       
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                                
-                               
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ request.user.username}}</a>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#">profile</a>
-                                        
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" id="logout" href="{% url 'logout' %}">Logout</a>
-                                    </div>
-                                </li>
-                                
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <!-- Page content-->
-                {% block body %}
-    <!-- include body content here for html page -->
-                {% endblock %}
-                
+            <div class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:dashboard' %}">Dashboard</a>
+                <a id="notification_list_item" class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:notification' %}">Notification</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Help Center</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:settings' %}">Settings</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">Maintenance Scheduling</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'inventory:index' %}">Inventory</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:index' %}">Asset Tracking</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:dashboard' %}">Dashboard</a>
             </div>
         </div>
-        
-    </body>
+        <!-- Page content wrapper-->
+        <div id="page-content-wrapper">
+            <!-- Top navigation-->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                            {% comment %} alert notification icon {% endcomment %}
+                            <div class="notification_alert">
+                            <i id="alert_icon" class="fa-solid fa-triangle-exclamation fa-xl"></i>
+                            </div>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">{{ request.user.username}}</a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" id="logout" href="{% url 'logout' %}">Logout</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- Page content-->
+            {% block body %}
+            <!-- include body content here for html page -->
+            {% endblock %}
+        </div>
+    </div>
+</body>
+
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script type="text/javascript" ></script>
+<script type="text/javascript"></script>
 
 <script>
+    $(document).ready(function () {
+        $("#logout").click(function () {
+            var user_token = window.localStorage.getItem("token");
+            console.log(user_token);
+            $.ajax({
+                type: "POST",
+                headers: {
+                    Authorization: "Token " + user_token,
+                    "Content-Type": "application/json",
+                },
 
-    $(document).ready(function(){
-    $("#logout").click(function(){
-        var user_token=(window.localStorage.getItem('token'));     
-        console.log(user_token);   
-        $.ajax({
-            type: 'POST',
-            headers: {
-            'Authorization':'Token '+user_token,
-            'Content-Type':'application/json'
-             },
-                 
-            url: 'http://localhost:8000/user/api/logout/',
-            
-            success: function (response) {
-                console.log(response); 
+                url: "http://localhost:8000/user/api/logout/",
 
-            },
-            error: function (XHR, status, err) {
-                console.log("Error!")    
-                
-            }
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (XHR, status, err) {
+                    console.log("Error!");
+                },
+            });
         });
     });
-    });
-    </script>
+</script>
+<script src="{% static 'tracking/js/notification_alerts.js' %}"></script>
