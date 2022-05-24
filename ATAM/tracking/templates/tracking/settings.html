@@ -25,11 +25,13 @@
                 <div class="md-form form-group w-50">
                     <label for="old_password"><strong>Old password</strong></label>
                     <input type="password" class="form-control" id="old_password" placeholder="Old password">
+                    <p style="color: red;"id="old_password_error"></p>
                   </div>
                   <div class="md-form form-group w-50">
                     <label for="new_password"><strong> Password</strong></label>
-                    <input type="text" class="form-control" id="new_password" placeholder="New password">
-                  </div>
+                    <input type="password" class="form-control" id="new_password" placeholder="New password">
+                    <p style="color: red;"id="new_password_error"></p>
+                </div>
 
                   <input id="change_password" type="button" value="submit" class="btn btn-primary btn-md">
 
@@ -45,7 +47,9 @@
            
             
             $("#change_password").click(function(){
-          
+                $("#old_password_error").text("");
+        $("#new_password_error").text("");
+        $("#non_field_errors").text("");
         
             var old_password = $('#old_password').val();
             var new_password =$('#new_password').val();
@@ -65,7 +69,10 @@
                     location.href = "http://localhost:8000/"
                 },
                 error: function (XHR, status, err) {
-                    console.log("Error!")
+                    console.log("Error!");
+                    $("#old_password_error").text(XHR.responseJSON["old_password"]);
+            $("#new_password_error").text(XHR.responseJSON["new_password"]);
+            $("#non_field_errors").text(XHR.responseJSON["non_field_errors"]);
         
                 }
             })

@@ -45,13 +45,9 @@ def notification(request):
     notifications = Notification.objects.values()
     len_notif = Notification.objects.count()
     # for user details
-    user_sender = User.objects.values('username')
-    user_revoker = User.objects.values('username')
     
     context = {'notifications' : notifications, 
             'len_notif' : len_notif,
-            'user_details' : user_sender,
-            'user_revoker' : user_revoker,
             }
     return render(request, 'tracking/notification.html', context)
 

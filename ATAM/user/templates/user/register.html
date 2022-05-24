@@ -33,19 +33,23 @@
                             <h2 style="text-align: center"><strong>Registration</strong></h2>
                             <label for="username"><strong>Username</strong></label>
                             <input type="text" class="form-control" id="username" placeholder="Username">
+                            <p style="color: red;"id="username_error"></p>
                             <small id="emailHelp" class="form-text text-muted">Required. 150 Characters or fewer. Letters, digits and @/./+/-/_only.</small>
                             <br>
                             <label for="email"><strong>Email Address</strong></label>
                             <input type="text" class="form-control" id="email" placeholder="Email Address">
-                         </div>
+                            <p style="color: red;"id="email_error"></p>
+                        </div>
         <div class="form-group">
              <label for="password"><strong>Password</strong></label>
                 <input type="password" class="form-control" id="password" placeholder="Password">
-            <br>
+                <p style="color: red;"id="password_error"></p>
+                <br>
             <label for="phone_number"><strong>Phone Number</strong></label>
                             <input type="text" class="form-control" id="phone_number" placeholder="Phone Number">
+                            <p style="color: red;"id="phone_number_error"></p>
         </div>
-
+        <p style="color: red;"id="non_field_errors"></p>
         <input  type="button" class="btn btn-primary btn-block"value="Register" id="register">
         <label class="form-reg-label" for="exampleCheck1">Already have an account? <a href="{% url 'login' %}">login Here</a> </label>              
 
@@ -64,8 +68,18 @@
 <script>
 document.cookie = 'sessionid' +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 document.cookie = 'csrftoken' +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+
+
+
 $(document).ready(function(){
 $("#register").click(function(){
+    $("#username_error").text("");
+    $("#phone_number_error").text("");
+    $("#email_error").text("");
+$("#password_error").text("");
+$("#non_field_errors").text("");
+
+
     var username = $('#username').val();
     var email =$('#email').val();
     var password =$('#password').val();
@@ -84,7 +98,12 @@ $("#register").click(function(){
             location.href = "http://localhost:8000/"
         },
         error: function (XHR, status, err) {
-            console.log("Error!")
+            console.log("Error!");
+            $("#username_error").text(XHR.responseJSON["username"]);
+            $("#password_error").text(XHR.responseJSON["password"]);
+            $("#email_error").text(XHR.responseJSON["email"]);
+            $("#phone_number_error").text(XHR.responseJSON["phone_number"]);
+            $("#non_field_errors").text(XHR.responseJSON["non_field_errors"]);
 
         }
     })

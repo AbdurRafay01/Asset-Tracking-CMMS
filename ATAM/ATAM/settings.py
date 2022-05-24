@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'user',
     'knox',
     'fontawesomefree',
+    'inventory',
+    'crispy_forms',
     
 ]
 

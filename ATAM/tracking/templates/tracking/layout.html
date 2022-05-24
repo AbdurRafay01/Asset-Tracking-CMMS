@@ -26,13 +26,15 @@
             </div>
             <div class="list-group list-group-flush">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:dashboard' %}">Dashboard</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:index' %}">Asset Tracking</a>
+
                 <a id="notification_list_item" class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:notification' %}">Notification</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Help Center</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'inventory:index' %}">Inventory</a>
+                    
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">Maintenance Scheduling</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:settings' %}">Settings</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">Maintenance Scheduling</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'inventory:index' %}">Inventory</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:index' %}">Asset Tracking</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:dashboard' %}">Dashboard</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Help Center</a>
+                    
             </div>
         </div>
         <!-- Page content wrapper-->
@@ -51,8 +53,7 @@
                                     data-bs-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">{{ request.user.username}}</a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">profile</a>
-                                    <div class="dropdown-divider"></div>
+                                    
                                     <a class="dropdown-item" id="logout" href="{% url 'logout' %}">Logout</a>
                                 </div>
                             </li>

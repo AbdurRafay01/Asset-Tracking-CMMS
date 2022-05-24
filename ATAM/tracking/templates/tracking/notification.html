@@ -5,6 +5,7 @@
 {% block title %}Notifications{% endblock %}
 
 {% block body %}
+
 <link rel="stylesheet" type="text/css" href="{% static 'tracking/css/styles.css' %}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 {% comment %} <link rel="stylesheet" href="{% static 'bootstrap513/css/bootstrap.css' %}"> {% endcomment %}
@@ -23,8 +24,8 @@
             
             {% for var in notifications %}
             <tr>
-                <td>{{ user_details }}</td>
-                <td>{{ user_revoker }}</td>
+                <td>{{ var}}</td>
+                <td>{{ var.user_revoker}}</td>
                 <td>{{ var.status }}</td>
                 <td>{{ var.type_of_notification }}</td>
             </tr>
