@@ -1,11 +1,11 @@
 
 from celery import shared_task
 
-
-from tracking.models import Location,Tracker
+from tracking.models import Location,Tracker, Notification
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
+from django.core import serializers
 import json 
 
 
@@ -34,3 +34,15 @@ def  get_location():
         'type':'send_location',
         'text':json.dumps(tracker_location)
     })
+    
+@shared_task
+def get_notification():
+    
+    status = Notification.objects.all()
+    status_json = serializers.serialize('json', status)
+    channel_layer = get_channel_layer()
+    message = {
+        'type': 'loc_message',
+        'message': status_json 
+    }
+    async_to_sync(channel_layer.group_send)('core-realtime-data', message)

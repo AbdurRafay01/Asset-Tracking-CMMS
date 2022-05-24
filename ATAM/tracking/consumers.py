@@ -12,21 +12,35 @@ import time
 class Notification_Alert(AsyncWebsocketConsumer):
     notification_exist = False
     async def connect(self):
+        
+        self.channel_group_name = 'core-realtime-data'
+
+        await self.channel_layer.group_add(
+            self.channel_group_name,
+            self.channel_name
+        )
+        
         await self.accept()
-        while self.connect:
-            obj = await self.Data()
-            # sleep(10)
-            if self.notification_exist:
-                # print("Sending udpate to client about tracker notification")
-                alert = {"status": 1}
-                await self.send(json.dumps(alert, indent=4))
-            else:
-                alert = {"status": 0}
-                await self.send(json.dumps(alert, indent=4))
-                # print("no updates about region cross")
-                
+
     async def disconnect(self, code):
-        return await super().disconnect(code)
+
+        await self.channel_layer.group_discard(
+            self.channel_group_name,
+            self.channel_name
+        )
+    
+    async def receive(self, text_data=None):
+        print(text_data)
+        pass
+    
+    async def loc_message(self, event):
+        msg = json.loads(event['message'])
+        print(201, "notification sending to socket")
+        await self.send(text_data=json.dumps(
+            {
+                'msg': msg
+            }
+        ))
 
     #this function returns the latest notification from the database  
     @database_sync_to_async
@@ -129,7 +143,6 @@ class TrackerLocation(AsyncWebsocketConsumer):
         print(data_to_get)
         user_to_get=await self.get_user(int(data_to_get))
         print(user_to_get)
-        # RAFAY creating changes to website a/c to warning notification
         await self.create_notification(user_to_get)
 #         self.room_group_name='test_consumer_group'
 #         channel_layer=self.get_channel_layer()
