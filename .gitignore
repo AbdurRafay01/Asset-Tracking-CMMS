@@ -4,3 +4,4 @@ venv/
 #ignore pycache for all directories
 __pycache__/
 
+ATAM/ATAM/.env

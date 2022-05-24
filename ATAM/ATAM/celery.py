@@ -11,6 +11,12 @@ app.conf.beat_schedule = {
 
       'task':'tracking.tasks.get_location',
       'schedule' :30.0 
+    },
+    'get_notification_10s' : {
+      'task': 'tracking.tasks.get_notification',
+      'schedule': 10.0
     }
 }
+
+
 app.autodiscover_tasks()

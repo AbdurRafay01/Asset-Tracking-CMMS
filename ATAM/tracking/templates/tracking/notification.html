@@ -1,0 +1,46 @@
+{% extends "tracking/layout.html" %}
+{% load static %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block body %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'tracking/css/styles.css' %}">
+{% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> {% endcomment %}
+{% comment %} <link rel="stylesheet" href="{% static 'bootstrap513/css/bootstrap.css' %}"> {% endcomment %}
+<div>
+    <h1 class="display-4">Notifications</h1>
+    <table id="notification_table" class="table">
+        <thead>
+            <tr>
+                <th scope="col">User Sender</th>
+                <th scope="col">User Revoker</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody id="old_tbody">
+            
+            {% for var in notifications %}
+            <tr>
+                {% comment %} <td>{{ user_details }}</td> {% endcomment %}
+                <td>{{ var.id }}</td>
+                <td>{{ var.status }}</td>
+                <td>{{ var.type_of_notification }}</td>
+                <td>
+                    <a href="{% url 'tracking:notification_delete' var.id %}">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            Mark as Read
+                        </button>
+                    </a>
+                </td>
+            </tr>
+                {% comment %} <h1>{{ var.type_of_notification }}</h1> {% endcomment %}
+            {% endfor %}
+            
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock body %}

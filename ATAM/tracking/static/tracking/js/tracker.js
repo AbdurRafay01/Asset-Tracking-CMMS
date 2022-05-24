@@ -1,5 +1,11 @@
 
 var map;
+var url_string = window.location.href;
+
+
+console.log(url_string);
+var tracker_id = url_string.slice(-2);
+console.log(tracker_id);
 var routePolygon = null;      
 var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
@@ -31,7 +37,7 @@ let icon = {
   let marker_position = null ;
   let polygon_bounds = null;
 
-  var socket = new WebSocket('ws://localhost:8000/current_location/tracker/1'); 
+  var socket = new WebSocket('ws://localhost:8000/current_location/tracker/'+tracker_id); 
     socket.onmessage =  function(event){
       var data = JSON.parse(event.data);
       console.log(data);
@@ -153,7 +159,7 @@ function calcRoute() {
                 [overviewPath[i].lng(), overviewPath[i].lat()]);
             }
 
-            var distance = 10 / 111.12, // Roughly 10km
+            var distance = 5 / 111.12, // Roughly 10km
                 geoInput = {
                     type: "LineString",
                     coordinates: overviewPathGeo

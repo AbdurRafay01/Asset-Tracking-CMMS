@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" ></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <style>
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px #000;
+            position: absolute;
+            top: 15vh;
+
+                         }
+
+    </style>
+</head>
+<body>
+
+<section class="container-fluid bg">
+    <section class="row justify-content-center">
+        <section class="col-12 col-sm-6 col-md-3">
+                    <form class="form-container" id="register_form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <h2 style="text-align: center"><strong>Registration</strong></h2>
+                            <label for="username"><strong>Username</strong></label>
+                            <input type="text" class="form-control" id="username" placeholder="Username">
+                            <p style="color: red;"id="username_error"></p>
+                            <small id="emailHelp" class="form-text text-muted">Required. 150 Characters or fewer. Letters, digits and @/./+/-/_only.</small>
+                            <br>
+                            <label for="email"><strong>Email Address</strong></label>
+                            <input type="text" class="form-control" id="email" placeholder="Email Address">
+                            <p style="color: red;"id="email_error"></p>
+                        </div>
+        <div class="form-group">
+             <label for="password"><strong>Password</strong></label>
+                <input type="password" class="form-control" id="password" placeholder="Password">
+                <p style="color: red;"id="password_error"></p>
+                <br>
+            <label for="phone_number"><strong>Phone Number</strong></label>
+                            <input type="text" class="form-control" id="phone_number" placeholder="Phone Number">
+                            <p style="color: red;"id="phone_number_error"></p>
+        </div>
+        <p style="color: red;"id="non_field_errors"></p>
+        <input  type="button" class="btn btn-primary btn-block"value="Register" id="register">
+        <label class="form-reg-label" for="exampleCheck1">Already have an account? <a href="{% url 'login' %}">login Here</a> </label>              
+
+        </form>
+        </section>
+    </section>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" ></script>
+<script>
+document.cookie = 'sessionid' +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+document.cookie = 'csrftoken' +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+
+
+
+$(document).ready(function(){
+$("#register").click(function(){
+    $("#username_error").text("");
+    $("#phone_number_error").text("");
+    $("#email_error").text("");
+$("#password_error").text("");
+$("#non_field_errors").text("");
+
+
+    var username = $('#username').val();
+    var email =$('#email').val();
+    var password =$('#password').val();
+    var phone_number=$('#phone_number').val();
+    var serializedData = $("#register_form").serialize()+"&username="+username+"&email="+email+"&password="+password+"&phone_number="+phone_number; 
+    
+    console.log(serializedData);
+    $.ajax({
+        type: 'POST',
+        url: '{% url "api_register" %}',
+        data: serializedData,
+        success: function (response) {
+            console.log(response.token)
+            window.localStorage.setItem('token', response.token);
+            console.log(response);
+            location.href = "http://localhost:8000/"
+        },
+        error: function (XHR, status, err) {
+            console.log("Error!");
+            $("#username_error").text(XHR.responseJSON["username"]);
+            $("#password_error").text(XHR.responseJSON["password"]);
+            $("#email_error").text(XHR.responseJSON["email"]);
+            $("#phone_number_error").text(XHR.responseJSON["phone_number"]);
+            $("#non_field_errors").text(XHR.responseJSON["non_field_errors"]);
+
+        }
+    })
+})
+})
+
+
+
+</script>

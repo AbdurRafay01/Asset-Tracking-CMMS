@@ -1,3 +1,4 @@
+from operator import mod
 from django.db import models
 
 from django.http import JsonResponse
@@ -8,15 +9,17 @@ from user.models import User
 
 
 class Asset(models.Model):
-    asset_name = models.CharField('Tracker name ',max_length=30) 
+    asset_name = models.CharField('Asset name ',max_length=30) 
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-
+    assigned_tracker = models.OneToOneField('Tracker',on_delete=models.CASCADE,verbose_name='Assigned Tracker',blank=True,
+        null=True)
     def __str__(self):
         return self.asset_name
 
 
 class Tracker(models.Model):
+    tracker_name = models.CharField('Tracker name ',max_length=30) 
     status_choices = (
         (0,"OFF"),
         (1,"ON"),
@@ -25,7 +28,7 @@ class Tracker(models.Model):
     status = models.IntegerField(default=0,choices=status_choices)
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return  self.tracker.asset_name
+        return  self.tracker_name
 
 
 class Location(models.Model):

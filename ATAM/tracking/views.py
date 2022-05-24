@@ -1,9 +1,11 @@
 import json
+from multiprocessing import context
 from urllib import response
+from wsgiref.util import request_uri
 from django.shortcuts import render
 from .models import *
 from django.http import JsonResponse
-
+from django.shortcuts import redirect
 #for creating a rest api 
 from rest_framework.response import Response
 from rest_framework import status
@@ -13,12 +15,59 @@ from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
 from rest_framework.decorators import api_view   
 
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
+@login_required()
 def index(request):
-    return render(request,'tracking/index.html')
+    tracker = Tracker.objects.all()
+    return render(request,'tracking/index.html',{"tracker":tracker})
 
+
+@login_required()
+def help(request):
+    return render(request,'tracking/help.html')    
+@login_required()
+def dashboard(request):
+    total_users = len(User.objects.all())
+    total_trackers = len(Tracker.objects.all())
+    total_assets = len(Asset.objects.all())
+    jobs = Job.objects.all()
+    total_jobs = len(jobs)
+    context={
+        "total_users":total_users,
+        "total_tracker":total_trackers,
+        "total_assets":total_assets,
+        "total_jobs":total_jobs,
+        "jobs":jobs
+    }
+    return render(request,'tracking/dashboard.html',context)
+
+@login_required()
+def setting(request):
+    return render(request,'tracking/settings.html')
+@login_required()
+def notification(request):
+    notifications = Notification.objects.values()
+    len_notif = Notification.objects.count()
+    # for user details
+    
+    context = {
+            'notifications' : notifications, 
+            'len_notif' : len_notif,
+            }
+    return render(request, 'tracking/notification.html', context)
+@login_required()
+def notification_alert(request):
+    return render(request, 'tracking/tracker.html')
+@login_required()
+def notification_delete(request, id):
+    print('-------------------')
+    notif_obj = Notification.objects.filter(pk=id)
+    print("deleted!",notif_obj)
+    notif_obj.delete()
+    return redirect('/tracking/notification/')
+@login_required()
 def tracker(request,tracker_id):
     current_location = Location.objects.filter(tracker=(tracker_id)).values('lat','lng').order_by('-id')[0]
     job = Job.objects.filter(tracker=(tracker_id)).values()
@@ -41,8 +90,6 @@ def location_detail(request,tracker_id):
     if request.method == 'GET':
         serializer = LocationSerializer(location)
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
-        
-    
     '''May be needed in future'''
     # elif request.method == 'PUT':
     #     data = JSONParser().parse(request)
@@ -56,7 +103,6 @@ def location_detail(request,tracker_id):
     # elif request.method == 'DELETE':
     #     Location.delete()
     #     return HttpResponse(status=204)
-        
 
 @api_view(['GET', 'POST', 'DELETE'])
 def location_list(request):
@@ -74,7 +120,7 @@ def location_list(request):
         serializer = LocationSerializer(locations, many=True)
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
         # 'safe=False' for objects serialization
- 
+        
     elif request.method == 'POST':
         location_data = JSONParser().parse(request)
         serializer = LocationSerializer(data=location_data)
@@ -84,4 +130,3 @@ def location_list(request):
             
         return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     
-   

@@ -16,7 +16,7 @@ import os
 # Initialise environment variables
 env = environ.Env()
 environ.Env.read_env()
-print(environ.Env.read_env())
+print("Enviroment:", env("DATABASE_NAME"))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -47,7 +47,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'user',
     'knox',
+
     'maintenance',
+
+    'fontawesomefree',
+    'inventory',
+
     'crispy_forms',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -169,9 +174,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "tracking/static/"),
+    os.path.join(BASE_DIR, "fontawesomefree"),
+    os.path.join(BASE_DIR, "user/static/")
+    # os.path.join(BASE_DIR, "bootstrap513"),
 )
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyCaMwztN6dbDERbNkKcsBE9NKcu3L27l_A'
+LOGIN_URL='http://localhost:8000/'
+LOGIN_REDIRECT_URL='http://localhost:8000/'
