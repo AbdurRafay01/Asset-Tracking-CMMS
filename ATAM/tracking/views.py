@@ -15,13 +15,19 @@ from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
 from rest_framework.decorators import api_view   
 
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
+@login_required()
 def index(request):
     tracker = Tracker.objects.all()
     return render(request,'tracking/index.html',{"tracker":tracker})
 
+
+@login_required()
+def help(request):
+    return render(request,'tracking/help.html')    
+@login_required()
 def dashboard(request):
     total_users = len(User.objects.all())
     total_trackers = len(Tracker.objects.all())
@@ -37,10 +43,10 @@ def dashboard(request):
     }
     return render(request,'tracking/dashboard.html',context)
 
-
+@login_required()
 def setting(request):
     return render(request,'tracking/settings.html')
-
+@login_required()
 def notification(request):
     notifications = Notification.objects.values()
     len_notif = Notification.objects.count()
@@ -51,17 +57,17 @@ def notification(request):
             'len_notif' : len_notif,
             }
     return render(request, 'tracking/notification.html', context)
-
+@login_required()
 def notification_alert(request):
     return render(request, 'tracking/tracker.html')
-
+@login_required()
 def notification_delete(request, id):
     print('-------------------')
     notif_obj = Notification.objects.filter(pk=id)
     print("deleted!",notif_obj)
     notif_obj.delete()
     return redirect('/tracking/notification/')
-
+@login_required()
 def tracker(request,tracker_id):
     current_location = Location.objects.filter(tracker=(tracker_id)).values('lat','lng').order_by('-id')[0]
     job = Job.objects.filter(tracker=(tracker_id)).values()

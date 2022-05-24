@@ -179,3 +179,5 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyCaMwztN6dbDERbNkKcsBE9NKcu3L27l_A'
+LOGIN_URL='http://localhost:8000/'
+LOGIN_REDIRECT_URL='http://localhost:8000/'

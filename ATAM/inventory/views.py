@@ -3,8 +3,9 @@ from django.shortcuts import render
 from tracking.models import Asset,Tracker
 from .forms import AddAssetForm,AddTrackerForm
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 # Create your views here.
-
+@login_required()
 def index(request):
     asset = Asset.objects.all()
     tracker = Tracker.objects.all()
@@ -15,7 +16,7 @@ def index(request):
     }
     
     return render(request,'inventory/index.html',context)
-
+@login_required()
 def add_asset(request):
     form = AddAssetForm()
     if request.method == 'POST':
@@ -29,7 +30,7 @@ def add_asset(request):
             'form':form
         }
         return render(request,'inventory/add_asset.html',context)
-
+@login_required()
 def update_asset(request,id):
     asset = Asset.objects.get(id=id)
     if request.method == 'POST':
@@ -43,7 +44,7 @@ def update_asset(request,id):
         form = AddAssetForm(instance=asset)
 
     return render(request, 'inventory/add_asset.html', {'form': form})    
-
+@login_required()
 def delete_asset(request,id):
     print('-------------------')
     asset_instance = Asset.objects.filter(pk=id)

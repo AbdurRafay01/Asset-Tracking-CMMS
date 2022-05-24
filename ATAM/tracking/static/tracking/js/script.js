@@ -13,7 +13,8 @@ var socket = new WebSocket('ws://localhost:8000/current_location/');
     var data = JSON.parse(event.data);
     console.log(data);
     if (counter ==1){
-    for (i=1;i<=Object.keys(data).length;i++){
+    for (i=0;i<Object.keys(data).length;i++){
+      console.log(i);
        marker[i]= new google.maps.Marker({
         position :new google.maps.LatLng(data[i][i-i], data[i][1]),
         title :"Asset "+i+"\n"+new google.maps.LatLng(data[i][i-i], data[i][1]),

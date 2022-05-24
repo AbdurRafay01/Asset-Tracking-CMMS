@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
@@ -22,7 +23,7 @@ def user_login(request):
 def user_register(request):
     return render(request,'user/register.html')
 
-
+@login_required()
 def user_logout(request):
     request.session.clear()
     return redirect('login')
