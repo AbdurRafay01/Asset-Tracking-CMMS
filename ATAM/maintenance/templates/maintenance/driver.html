@@ -1,0 +1,45 @@
+{% extends "maintenance/layout.html" %} 
+{% load static %} 
+{% block title %}
+Maintenance-{{name}}
+{% endblock %}
+
+{% block body %}
+<div>
+    <h1>{{ name }}</h1>
+    <!-- <ul>
+        {% for distance in distances %}
+        <li>
+          distance from point {{ distance.1 }} to point {{ distance.2 }} = {{ distance.0 }} km
+        </li> -->
+        <!-- <li>
+            <!-- gives car/truck -->
+            <!-- {{location}} -->
+        <!-- </li> -->
+  
+        <!-- {% endfor %} -->
+        <!-- <li>{{ locations.0.lat }}</li>
+        <li>{{ locations.1.lat }}</li>
+        <li>{{ locations.2.lat }}</li> -->
+
+      <!-- </ul> -->
+      <br><br>
+      <p>Maintenance Status =  {{ alert }}</p>
+      <!-- <p>Distance Covered in Total = {{ distance }} km</p> -->
+      {% if alert == "CHANGE OIL" %}
+      <!-- <form method="post"> -->
+        <!-- {% csrf_token %} -->
+        <!-- <input type="button" value="Pending"> -->
+        <a href="{% url 'maintenance:reset_status' trackerid %}"><button type="submit">Done</button></a>
+        
+        <!-- </form> -->
+        
+        {% endif %}
+        <!-- <a href="{% url 'maintenance:reset_status' trackerid %}"><button type="submit">Done</button></a> -->
+</div>
+
+
+<script>
+
+</script>
+{% endblock %}
