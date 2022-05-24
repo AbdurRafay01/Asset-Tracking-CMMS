@@ -5,7 +5,7 @@ from wsgiref.util import request_uri
 from django.shortcuts import render
 from .models import *
 from django.http import JsonResponse
-
+from django.shortcuts import redirect
 #for creating a rest api 
 from rest_framework.response import Response
 from rest_framework import status
@@ -46,13 +46,21 @@ def notification(request):
     len_notif = Notification.objects.count()
     # for user details
     
-    context = {'notifications' : notifications, 
+    context = {
+            'notifications' : notifications, 
             'len_notif' : len_notif,
             }
     return render(request, 'tracking/notification.html', context)
 
 def notification_alert(request):
     return render(request, 'tracking/tracker.html')
+
+def notification_delete(request, id):
+    print('-------------------')
+    notif_obj = Notification.objects.filter(pk=id)
+    print("deleted!",notif_obj)
+    notif_obj.delete()
+    return redirect('/tracking/notification/')
 
 def tracker(request,tracker_id):
     current_location = Location.objects.filter(tracker=(tracker_id)).values('lat','lng').order_by('-id')[0]
@@ -76,8 +84,6 @@ def location_detail(request,tracker_id):
     if request.method == 'GET':
         serializer = LocationSerializer(location)
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
-        
-    
     '''May be needed in future'''
     # elif request.method == 'PUT':
     #     data = JSONParser().parse(request)
@@ -91,7 +97,6 @@ def location_detail(request,tracker_id):
     # elif request.method == 'DELETE':
     #     Location.delete()
     #     return HttpResponse(status=204)
-        
 
 @api_view(['GET', 'POST', 'DELETE'])
 def location_list(request):

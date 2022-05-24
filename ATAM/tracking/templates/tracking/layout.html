@@ -33,8 +33,9 @@
                     
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">Maintenance Scheduling</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:settings' %}">Settings</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Help Center</a>
-                    
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">Maintenance Scheduling</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'inventory:index' %}">Inventory</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:index' %}">Asset Tracking</a>
             </div>
         </div>
         <!-- Page content wrapper-->
@@ -45,9 +46,9 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
                             {% comment %} alert notification icon {% endcomment %}
-                            <div class="notification_alert">
+                            {% comment %} <div class="notification_alert">
                             <i id="alert_icon" class="fa-solid fa-triangle-exclamation fa-xl"></i>
-                            </div>
+                            </div> {% endcomment %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true"
