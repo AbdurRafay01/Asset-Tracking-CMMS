@@ -170,6 +170,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "tracking/static/"),
     os.path.join(BASE_DIR, "fontawesomefree"),
+    # os.path.join(BASE_DIR, "bootstrap513"),
 )
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
