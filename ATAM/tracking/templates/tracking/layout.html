@@ -12,20 +12,21 @@
             {% endblock %}
         </title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+      
         
     
        
    
     </head>
     <body>
+        
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             <div class="border-end bg-white" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light">Asset Tracking And Management</div>
+                <div class="sidebar-heading border-bottom bg-light"><strong>Asset Tracking And Management</strong></div>
                 <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Dashboard</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Asset Tracking</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:dashboard' %}">Dashboard</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:index' %}">Asset Tracking</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'inventory:index' %}">Inventory</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">Maintenance Scheduling</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'tracking:settings' %}">Settings</a>
