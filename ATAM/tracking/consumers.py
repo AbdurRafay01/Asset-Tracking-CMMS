@@ -60,44 +60,51 @@ class AllLocation(AsyncWebsocketConsumer):
         while self.connect:
             obj = await self.Data()
             print(obj)
-            print(self.counter)
+            #print(str(list(obj.keys())[0])['lat'])
+         
             if  self.counter == 0:
                 print("counter zero ")
                 for i in range(self.no_of_tracker):
-                    i+=1
-                    tracker1 = float(obj[i]['lat']),float(obj[i]['lng'])
-                    print(tracker1)  
+                    #i+=1
+                    tracker1 = float(obj[list(obj.keys())[i]]['lat']),float(obj[list(obj.keys())[i]]['lng']) 
+                    print(tracker1)
                     self.data[i]=tracker1
                 await self.send(json.dumps(self.data,indent=4))
                 await sleep(30)
             else:
                 print("counter >1")
                 for i in range(self.no_of_tracker):
-                    i+=1
+                    #i+=1
                     print(self.data[i])
-                    tracker1 = float(obj[i]['lat']),float(obj[i]['lng'])
+                    tracker1 = float(obj[list(obj.keys())[i]]['lat']),float(obj[list(obj.keys())[i]]['lng'])
+                    print(tracker1)
                     if (self.data[i]) == (tracker1):
                         print("value same not sending......")
         
                     else:
                         print("value is not same sending.....")   
                         self.data[i]=tracker1
+                        print(self.data[i])
                         await self.send(json.dumps({i:{'lat':self.data[i][0],'lng':self.data[i][1]}},indent=4))
                 await sleep(30)             
             print("incrementing counter")
             self.counter+=1
-            print(self.counter)            
+                    
         self.close
     #this function returns the latest location from database.    
     @database_sync_to_async
     def Data(self):
         tracker_dict = {}
-        tracker = len(Tracker.objects.all())
-        self.no_of_tracker = tracker
-        for i in range(tracker):
-            i+=1
+        tracker = (Tracker.objects.all().values_list('pk',flat=True))
+       
+        self.no_of_tracker = len(tracker)
+        for i in (tracker):
+          
+            
+            #i+=1
             try:
-                obj=(Location.objects.filter(tracker=(i)).values('lat','lng').order_by('-id')[0])
+                obj=(Location.objects.filter(tracker=(int(i))).values('lat','lng').order_by('-id')[0])
+               
                 tracker_dict[i]=obj
             except:
                 print("databases empty")

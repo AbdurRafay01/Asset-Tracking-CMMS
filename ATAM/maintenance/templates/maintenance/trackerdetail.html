@@ -1,0 +1,16 @@
+{% extends "tracking/layout.html" %} 
+{% load static %} 
+{% block title %}
+Maintenance-{{name}}
+{% endblock %}
+
+
+{% block body %}
+<link rel="stylesheet" type="text/css" href="{% static 'tracking/css/styles.css' %}">
+<div>
+    <h1>{{ name }}</h1>
+    <br><br>
+    <p>Distance Covered in Total = {{ distance }} km</p>
+</div>
+
+{% endblock %}

@@ -47,11 +47,15 @@ INSTALLED_APPS = [
     'rest_framework',
     'user',
     'knox',
+
+    'maintenance',
+
     'fontawesomefree',
     'inventory',
+
     'crispy_forms',
 ]
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -179,3 +183,5 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyCaMwztN6dbDERbNkKcsBE9NKcu3L27l_A'
+LOGIN_URL='http://localhost:8000/'
+LOGIN_REDIRECT_URL='http://localhost:8000/'

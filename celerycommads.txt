@@ -1,0 +1,6 @@
+celery commands:
+#to start the beat
+celery -A ATAM beat -l INFO
+
+#to start the worker
+celery -A ATAM worker -l info -P gevent
