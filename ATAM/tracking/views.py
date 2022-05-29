@@ -8,9 +8,9 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 #for creating a rest api 
 from rest_framework.response import Response
-from rest_framework import status
-from .serializers import LocationSerializer
-from .models import Location
+from rest_framework import status, generics
+from .serializers import JobSerializer, LocationSerializer
+from .models import Location, Job
 from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
 from rest_framework.decorators import api_view   
@@ -130,3 +130,27 @@ def location_list(request):
             
         return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     
+
+@api_view(['GET', 'POST'])
+def job_list(request):
+    """
+    Retreive or post tracking jobs
+    """
+    try:
+        jobs = Job.objects.all()
+    except:
+        return JsonResponse({"status": "error", "data": "No data found"}, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == "GET":
+        serializer = JobSerializer(jobs, many=True)
+        return Response({
+            'status' : 'success',
+            'data' : serializer.data,
+        }, status=status.HTTP_200_OK)
+    elif request.method == "POST":
+        new_job = JSONParser().parse(request)
+        serializer = JobSerializer(data=new_job)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

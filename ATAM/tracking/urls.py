@@ -12,5 +12,6 @@ urlpatterns = [
     path("notification_alert/", notification_alert, name="notification_alert"),
     path("notification/", notification, name="notification"),
     path('dashboard',dashboard,name="dashboard"),
-     path('help',help,name="help"),
+    path("jobs/", job_list, name="jobs"),
+    path('help',help,name="help"),
 ]
