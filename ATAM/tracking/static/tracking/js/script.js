@@ -8,7 +8,7 @@ var marker=[];
 var position = [0, 0];
 var marker_no=0;
 var counter= 1;  
-var socket = new WebSocket('ws://localhost:8000/current_location/'); 
+var socket = new WebSocket('ws://ec2-35-87-136-71.us-west-2.compute.amazonaws.com:8000/current_location/'); 
   socket.onmessage =  function(event){
     var data = JSON.parse(event.data);
     console.log(data);
