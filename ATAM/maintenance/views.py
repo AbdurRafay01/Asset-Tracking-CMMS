@@ -9,7 +9,7 @@ from django.shortcuts import redirect
 # Create your views here.
 
 def trackers_list():
-    # get all values of column tracker fvrom maintenance table
+    # get all values of column tracker from maintenance table
     rows = list(Maintenance.objects.values_list("tracker"))
 
     # filter unique tracker ids
@@ -68,7 +68,15 @@ def driver(request, tracker_iD):
     try:
         maintenance = Maintenance.objects.filter(tracker=tracker_iD).order_by("-id")[0]
     except IndexError:
-        maintenance = Maintenance.objects.create(tracker = tracker_iD, total_distance = 0)
+        # get all values of column tracker from location table
+        rows = list(Location.objects.values_list("tracker"))
+
+        # filter unique tracker ids
+        trackerids = list(set([list(id)[0] for id in rows]))
+        if tracker_iD in trackerids:
+            maintenance = Maintenance.objects.create(tracker = tracker_iD, total_distance = 0)
+        else:
+            return redirect(f'/maintenance')
 
     locations = Location.objects.filter(tracker_id=tracker_iD)
     list_locations = list(locations)
@@ -191,10 +199,11 @@ def reset_status(request,tracker_iD):
         # if form.is_valid():
             # form.save()
     asset.save()
+    print("Asset = ", asset)
     new_location = Location.objects.create(lat = float(prev_loc.lat), lng = float(prev_loc.lng), tracker_id = prev_loc.tracker_id)
     new_location.save()
 
-    return redirect(f'/maintenance/driver/{tracker_iD}')
+    return redirect(f'/maintenance')
     # else:
 
         # return redirect('/maintenance/')
