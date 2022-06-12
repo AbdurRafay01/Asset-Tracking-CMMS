@@ -4,11 +4,32 @@
 {% block title %}ATAM{% endblock %}
 
 {% block body %}
+<style>
+head
+{
+  float: right;
+}
+select
+{
+  float: right;
+}
+.map
+{
+ float: right;
+}
+</style>
 <link rel="stylesheet" type="text/css" href="{% static 'tracking/css/styles.css' %}">
                 <!-- Page content-->
                 <div class="container-fluid">
-                    <h3 id="head">TRACKING MAP</h3>
-                    <div><h5>Tracker list</h5></div>
+                  <h3 style="margin-left: 5px;"><strong>Tracking Map</strong></h3>
+                  <br>
+                  <br>
+                    <h3 id="head">Trackers list</h3>
+                    <select name="trackers" id="trackers">
+                      <option value="main">Trackers</option>
+                      <option value="tracker#1">Tracker#1</option>
+                      <option value="tracker#2">Tracker#2</option>
+                    </select>
                     {% for tracker in tracker%}
                     <li><a href="{% url 'tracking:tracker' tracker.id %}">
                       {{tracker.tracker_name}}</a></li>
@@ -18,15 +39,18 @@
     
 
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <div class="map">
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaMwztN6dbDERbNkKcsBE9NKcu3L27l_A&callback=initialize&libraries=&v=weekly"
       async
     ></script>
+  </div>
                 </div>
             </div>
         </div>
         <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+        {% comment %} <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script> {% endcomment %}
+        
         <!-- Core theme JS-->
         <script src="{% static 'tracking/js/script.js' %}"></script>
     {% endblock %}

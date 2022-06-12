@@ -4,7 +4,14 @@ var url_string = window.location.href;
 
 
 console.log(url_string);
+<<<<<<< HEAD
 var tracker_id = url_string.slice(-1);
+=======
+// var tracker_id = url_string.slice(-1);
+var tracker_id = url_string.split('/');
+var tracker_id = tracker_id[tracker_id.length - 1];
+// tracker_id.replace('/', '')
+>>>>>>> 17edc181d568b8a519216b0b9e327e913400102e
 console.log(tracker_id);
 var routePolygon = null;      
 var directionsDisplay;

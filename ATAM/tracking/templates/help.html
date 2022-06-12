@@ -1,0 +1,100 @@
+{% extends "tracking/layout.html" %}
+{% load static %}
+
+{% block title %}Help{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" type="text/css" href="{% static 'tracking/css/styles.css' %}">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $("p").toggle();
+  });
+});
+</script>
+
+
+</head>
+
+<body>
+            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
+                    class="fas fa-user-secret me-2"></i>Asset Tracking & Management - FAQ</div>
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <section class="container-fluid bg">
+                <section class="row justify-content-center">
+                 <section class="col">
+               
+                     <a style="text-decoration:underline"><span style="text-align: center">What is Asset Tracking?<span style="float: right;"><button>&#8595;</button></span></span></a>
+                     <p>When working on a global platform. There is always a need for a management system that automates your work and allows you to control, manage and monitor various aspects of your organization. There is no proper system to check or track assets that are being utilized in your organization or are in use of particular labour. Similarly, labour tracking is also hard to track. It would be better if the system is automated and live tracking is enabled for both functions. These services include indoor navigation for people, the machinery inside organizations or educational institutions, asset tracking, location of patients inside a hospital. These types of services are also becoming a need of gigantic logistics or warehouse-based companies where there is a need for parcels or vehicle tracking.
+                        Generating work reports is also a challenging task if there is no proper monitoring on time. So, to cater to this problem, we've brought up a solution in which smart tags will use which will be attached to the asset which will be providing real-time tracking of that particular asset or labour through routers and that router will be providing the data to the server system where the system will be providing the current location of that particular asset.</p>
+                        
+                    <br>
+                    <br>
+                    <br>    
+                     <a style="text-decoration:underline"><span style="text-align: center">What are the hardwares used in the Project?<span style="float: right;"><button>&#8595;</button></span></span></a>
+                     <p>
+                         <br>
+                        Project hardware includes:
+                        <br>
+                        ●	Raspberry Pi Zero<br>
+                        ●	GPS Module (Neo6m)<br>
+                        ●	GSM Module
+                        
+                     </p>
+                    <br>  
+                    <br>
+                    <br>
+                     <a style="text-decoration:underline"><span style="text-align: center">Technology and stack used for asset tracking system?<span style="float: right;"><button>&#8595;</button></span></span></a>
+                     <p>
+                         <br>
+                        includes:
+                        <br>
+                        ●	Python/Django<br>
+                        ●	React<br>
+                        ●	Kotlin
+                     </p>
+                    <br>    
+                    <br>
+                    <br>
+                     <a style="text-decoration:underline"><span style="text-align: center">What is geofencing?<span style="float: right;"><button>&#8595;</button></span></span></a>
+                     <p>
+                        Geofencing is a location-based service in which an app or other software uses GPS, RFID, Wi-Fi or cellular data to trigger a pre-programmed action when a mobile device or RFID tag enters or exits a virtual boundary set up around a geographical location, known as a geofence.
+                    </p>  
+                    <br>
+                    <br>
+                    <br>
+                    <a style= "text-decoration:underline"><span style="text-align: center">How does geofencing works with asset tracking?<span style="float: right;"><button>&#8595;</button></span></span></a>
+                    <p>
+                        Geofencing works by creating a virtual perimeter or boundary around a real location via GPS tracking technology. Then, whenever your tagged vehicle or asset enters or leaves those virtual boundaries, an alert is sent.
+                    </p>  
+                    <br>   
+                    <br>
+                    <br>
+                    <a  style= "text-decoration:underline"><span style="text-align: center">What is the conclusion & result of the ATAM?<span style="float: right;"><button>&#8595;</button></span></span></a>
+                    <p>
+                        Asset tracking systems can be used to help you collect and retain data on any item of value that your organization owns. This data includes maintenance reports, asset use, physical location, and associated downtime and costs. The assets that you should be tracking include: Construction equipment.
+                    </p>
+                    </p>  
+                    <br>  
+                <br>
+                <br>
+                    
+
+
+                 </section>
+                </section>
+            </section>
+
+                </div>
+
+                {% endblock body %}
