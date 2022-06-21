@@ -2,7 +2,7 @@
 
 
 
-var notification_socket = new WebSocket("ws://ec2-35-87-136-71.us-west-2.compute.amazonaws.com:8000/notification_alert/")
+var notification_socket = new WebSocket("ws://ec2-35-89-78-206.us-west-2.compute.amazonaws.com:8000/notification_alert/")
 
 notification_socket.onmessage = function (event) {
     var data = JSON.parse(event.data)

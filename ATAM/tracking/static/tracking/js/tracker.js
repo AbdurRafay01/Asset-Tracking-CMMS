@@ -1,17 +1,12 @@
 
 var map;
 var url_string = window.location.href;
-
-
-console.log(url_string);
-<<<<<<< HEAD
 var tracker_id = url_string.slice(-1);
-=======
+
 // var tracker_id = url_string.slice(-1);
 var tracker_id = url_string.split('/');
 var tracker_id = tracker_id[tracker_id.length - 1];
 // tracker_id.replace('/', '')
->>>>>>> 17edc181d568b8a519216b0b9e327e913400102e
 console.log(tracker_id);
 var routePolygon = null;      
 var directionsDisplay;
@@ -44,7 +39,7 @@ let icon = {
   let marker_position = null ;
   let polygon_bounds = null;
 
-  var socket = new WebSocket('ws://ec2-35-87-136-71.us-west-2.compute.amazonaws.com:8000/current_location/tracker/'+tracker_id); 
+  var socket = new WebSocket('ws://ec2-35-89-78-206.us-west-2.compute.amazonaws.com:8000/current_location/tracker/'+tracker_id); 
     socket.onmessage =  function(event){
       var data = JSON.parse(event.data);
       console.log(data);

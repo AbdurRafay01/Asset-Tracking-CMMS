@@ -30,7 +30,7 @@ SECRET_KEY =env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'user',
     'knox',
-
+    'corsheaders',
     'maintenance',
 
     'fontawesomefree',
@@ -59,6 +59,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -127,12 +128,12 @@ CHANNEL_LAYERS = {
     'default' : {
         'BACKEND' : 'channels_redis.core.RedisChannelLayer',
         'CONFIG'  : {
-            'hosts':[('127.0.0.1',6379)]
+            'hosts':[('redis',6379)]
         }
     }
 }
 
-CELERY_BROKER_URL= 'redis://localhost:6379'
+CELERY_BROKER_URL= 'redis://redis:6379/0'
 
 
 
@@ -183,5 +184,6 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyCaMwztN6dbDERbNkKcsBE9NKcu3L27l_A'
-LOGIN_URL='http://localhost:8000/'
-LOGIN_REDIRECT_URL='http://localhost:8000/'
+LOGIN_URL='http://35.89.78.206:8000/'
+LOGIN_REDIRECT_URL='http://35.89.78.206:8000/'
+CORS_ALLOWED__ORIGINS = ['*']
