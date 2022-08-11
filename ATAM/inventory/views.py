@@ -1,7 +1,7 @@
-# from turtle import right
+
 from django.shortcuts import render
-from tracking.models import Asset,Tracker
-from .forms import AddAssetForm,AddTrackerForm
+from tracking.models import Asset,Tracker,Job
+from .forms import AddAssetForm,AddTrackerForm,AddJobForm
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -9,9 +9,11 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     asset = Asset.objects.all()
     tracker = Tracker.objects.all()
+    job = Job.objects.all()
     context = {
         'asset':asset,
         'tracker':tracker,
+        'job':job,
        
     }
     
@@ -82,4 +84,36 @@ def update_tracker(request,id):
 def delete_tracker(request,id):
     tracker_instance = Tracker.objects.filter(pk=id)
     tracker_instance.delete()
+    return redirect('/inventory/')
+
+
+def add_job(request):
+    form = AddJobForm()
+    if request.method == 'POST':
+        form = AddJobForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/inventory/')
+    else:
+
+        context = {
+            'form':form
+        }
+        return render(request,'inventory/add_job.html',context)
+
+def update_job(request,id):
+    job = Job.objects.get(pk=id)
+    if request.method == 'POST':
+        form = AddJobForm(request.POST,instance=job)
+        if form.is_valid():
+            form.save()
+            return redirect('/inventory/')
+    else:
+        form = AddJobForm(instance=job)
+
+    return render(request, 'inventory/add_job.html', {'form': form})    
+
+def delete_job(request,id):
+    job_instance = Job.objects.filter(pk=id)
+    job_instance.delete()
     return redirect('/inventory/')

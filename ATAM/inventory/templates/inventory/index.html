@@ -31,6 +31,47 @@ td
 
 <div>
 	<h1 style="margin-left: 30px">Inventory</h1>
+
+	<div style="margin-top:50px;float: right;margin-right:7%">
+		<a href="{% url 'inventory:add_job'  %}"><button type="submit" class="btn btn-primary" name="button">Add Job</button></a>
+	
+	</div>
+	<table class="table table-hover">
+		<header style="margin-top:50px">
+			<h2 style="margin-left: 30px">Jobs</h2>
+		</header>
+        <thead>
+			<tr style="text-align: left; background-color: skyblue;" style="margin-left: 30px">
+				<th>Related User</th>
+				<th>Tracker</th>
+				<th>Title</th>    
+				<th>Origin</th>
+				<th>Destination</th>    
+				<th>Description</th>
+				
+			<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for job in job %}
+        <tr> 
+            <td>{{ job.user }}</td>
+            
+            <td>{{ job.tracker }}</td>
+            <td>{{ job.title }}</td>
+            <td>{{ job.origin }}</td>
+			<td>{{ job.destination }}</td>
+			<td>{{ job.description }}</td>
+            <td> <a href="{% url 'inventory:add_job_instance' job.id %}"><button type="submit" class="btn btn-warning btn-sm" name="button">Edit</button></a>
+			<a href="{% url 'inventory:delete_job' job.id %}"><button type="submit" class="btn btn-danger btn-sm" name="button">Delete</button></a></td>
+        </tr>
+        {% endfor %}
+	</tbody>
+    </table>
+	<br>
+	<br>
+
 	
 	<div style="margin-top:50px;float: right;margin-right:7%">
 		<a href="{% url 'inventory:add_asset'  %}"><button type="submit" class="btn btn-primary" name="button">Add Asset</button></a>
@@ -74,7 +115,7 @@ td
 
 <table class="table table-hover">
 		<header>
-			<h2 style="margin-left: 30px">Tracker</h2>
+			<h2 style="margin-left: 30px">Trackers</h2>
 		</header>
         <thead>
 			<tr style="text-align: left; background-color: skyblue;" style="margin-left: 30px">
@@ -84,7 +125,7 @@ td
 			<th></th>
 				<th></th>
 				<th></th>
-			</tr>
+  			</tr>
 		</thead>
 		<tbody>
         {% for tracker in tracker %}
