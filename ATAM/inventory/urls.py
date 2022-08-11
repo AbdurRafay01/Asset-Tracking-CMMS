@@ -10,5 +10,8 @@ urlpatterns = [
     path('add_tracker/', add_tracker ,name='add_tracker'),
     path('add_tracker/<int:id>', update_tracker ,name='add_tracker_instance'),
     path('delete_tracker/<int:id>', delete_tracker ,name='delete_tracker'),
+    path('add_job/', add_job ,name='add_job'),
+    path('add_job/<int:id>', update_job ,name='add_job_instance'),
+    path('delete_job/<int:id>', delete_job ,name='delete_job'),
     
 ]
